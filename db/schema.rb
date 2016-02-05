@@ -11,17 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205103512) do
+ActiveRecord::Schema.define(version: 0) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "items", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "last_trade_date"
-    t.datetime "last_trade_time"
-    t.float    "last_trade_price"
-    t.float    "price_change"
-  end
 
 end
