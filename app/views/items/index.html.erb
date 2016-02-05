@@ -1,0 +1,27 @@
+<div class ="jumbotron">
+  <h2> Commodity Price </h2>
+</div> 
+
+<% @items.each do |item| %>
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th> Name</th>
+      <th> Last Trade Price</th>
+      <th> Last Trade Date </th>
+      <th> Last Trade Time</th>
+      <th> Change in Price </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr> 
+      <td> <%= item.name %> </td>
+      <td> <%= number_to_currency item.last_trade_price %> </td>
+      <td> <%= item.last_trade_date.strftime('%c') %> </td>
+      <td> <%= item.last_trade_time %> </td>
+      <td> <%= item.price_change %> </td>
+    </tr>
+  </tbody>
+</table>
+<%end%>
