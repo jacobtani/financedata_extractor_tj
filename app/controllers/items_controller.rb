@@ -11,7 +11,14 @@ require 'net/http'
   end
 
   def retrieve_current_data
-    @quote_data = Item.current_data
+    @item = Item.new(params[:item])
+    if @item.save
+      Item.current_data(@item.id)
+      @item.reload
+    end
+    sleep(20)
+    @item.reload
+    @quote_data = @item.reload.data
   end
 
 end
