@@ -1,7 +1,6 @@
 <div class ="jumbotron">
   <h2> Current Prices </h2>
 </div> 
-
 <table class='table table-striped'>
   <thead>
     <tr>
@@ -11,7 +10,8 @@
     </tr>
   </thead>
   <tbody>
-  <% @quote_data.each do |item| %>
+  <%@quote_data_h = eval(@quote_data) %>
+  <% @quote_data_h.each do |item| %>
     <tr> 
       <td> <%= item["Name"] %> </td>
       <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
