@@ -11,14 +11,18 @@ require 'net/http'
   end
 
   def retrieve_current_data
-    @item = Item.new(params[:item])
-    if @item.save
-      Item.current_data(@item.id)
-      @item.reload
-    end
+    @item = Item.create(data: nil)
+    #ItemsWorker.perform_in(1.minutes, @item.id)
+    ItemsWorker.perform_async(@item.id)
+    @item.reload
     sleep(20)
     @item.reload
     @quote_data = @item.reload.data
+  end
+
+  def search_history
+    @search_item = params[:search]
+    @history_data = Item.get_history_data(@search_item)
   end
 
 end
