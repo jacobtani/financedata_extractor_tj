@@ -22,4 +22,9 @@ require 'net/http'
     @quote_data = @item.reload.data
   end
 
+  def search_history
+    @search_item = params[:search]
+    @history_data = Item.get_history_data(@search_item)
+  end
+
 end
