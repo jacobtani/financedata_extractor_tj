@@ -6,10 +6,8 @@ class ItemsWorker
 
   def perform(item_id)
     return if cancelled?
-    logger.info("Working along")
     @item = Item.find(item_id)
-    url_c = Item.form_url
-    url = URI.parse(url_c)
+    url = URI.parse(Item.form_url)
     data = Net::HTTP.get_response(url).body
     xml_data = Hash.from_xml(data)
     @quote_data = xml_data ["query"]["results"]["quote"] if xml_data.present?
