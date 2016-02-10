@@ -7,7 +7,24 @@ class Item < ActiveRecord::Base
     url = URI.parse(uri)
     data = Net::HTTP.get_response(url).body
     xml_data = Hash.from_xml(data)
-    @history_data = xml_data ["query"]["results"]["quote"] if xml_data.present?
+    if xml_data.present?
+      if xml_data ["query"]["results"].present?
+        @history_data = xml_data ["query"]["results"]["quote"] 
+      else 
+        @history_data = []
+      end
+    end
+  @history_data
   end
+
+  def self.form_url 
+    initial_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20Name%2C%20LastTradePriceOnly%2C%20LastTradeDate%2C%20LastTradeWithTime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
+    Rails.configuration.stock_symbols.each do |h|
+      initial_url = [initial_url, h].join('')
+      initial_url = [initial_url, '%22%2C%20%22'].join('')
+    end
+    initial_url = [initial_url, '%22%20)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'].join('')  
+  end
+
 
 end
