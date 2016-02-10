@@ -7,7 +7,14 @@ class Item < ActiveRecord::Base
     url = URI.parse(uri)
     data = Net::HTTP.get_response(url).body
     xml_data = Hash.from_xml(data)
-    @history_data = xml_data ["query"]["results"]["quote"] if xml_data.present?
+    if xml_data.present?
+      if xml_data ["query"]["results"].present?
+        @history_data = xml_data ["query"]["results"]["quote"] 
+      else 
+        @history_data = []
+      end
+    end
+  @history_data
   end
 
   def self.form_url 
