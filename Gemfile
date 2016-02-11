@@ -26,6 +26,8 @@ gem 'jquery-turbolinks'                         #jQuery plugin for drop-in fix b
 gem 'sinatra', require: false
 gem 'slim'
 gem 'interactor', '3.1.0'                       # Common interface to perform complex user interactions
+gem 'whenever', require: false
+gem 'message_bus'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
