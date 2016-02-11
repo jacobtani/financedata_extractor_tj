@@ -21,9 +21,7 @@
     </tr>
   </thead>
   <tbody>
-  <% if @quote_data.present? %>
-  <%@quote_data_h = eval(@quote_data) %>
-  <% @quote_data_h.each do |item| %>
+  <% @quote_data.each do |item| %>
     <tr> 
       <td> <%= item["Name"] %> </td>
       <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
@@ -31,7 +29,6 @@
       <%time=item["LastTradeWithTime"].split(' -').first %>
       <td> <%= [date, time].join(' ') %> </td>
     </tr>
-  <%end%>
   <%end%>
   </tbody>
 </table>

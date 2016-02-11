@@ -26,5 +26,12 @@ class Item < ActiveRecord::Base
     initial_url = [initial_url, '%22%20)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'].join('')  
   end
 
+  def self.current_data
+    @item = Item.create(data: nil)
+    result = ItemsInteractor.call(item_id: @item.id)
+    @quote_data = result.success? ? result.quote_data : []
+    @quote_data
+  end
+
 
 end
