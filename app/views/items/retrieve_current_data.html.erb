@@ -1,3 +1,4 @@
+<div class = 'container'>
 <div class ="jumbotron">
   <h2> Current Prices </h2>
 </div> 
@@ -6,6 +7,7 @@
     <%=link_to 'Run Now', retrieve_data_path %>
   </div>
   <div class = "col-md-4">
+    <h5 id="hd-updated"> Last Updated at <%= Time.now %> </h5>
     <%#=link_to 'Start Capture', start_capture_path %>
   </div>
   <div class = "col-md-4">
@@ -22,13 +24,14 @@
   </thead>
   <tbody>
   <% @quote_data.each do |item| %>
-    <tr> 
+    <tr id="<%= item['Name'] %>"> 
       <td> <%= item["Name"] %> </td>
       <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-      <%date=(DateTime.parse(item["LastTradeDate"])).strftime('%m\%d\%y') %>
+      <%date=item["LastTradeDate"] %>
       <%time=item["LastTradeWithTime"].split(' -').first %>
       <td> <%= [date, time].join(' ') %> </td>
     </tr>
   <%end%>
   </tbody>
 </table>
+</div>

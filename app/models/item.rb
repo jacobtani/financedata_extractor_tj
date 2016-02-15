@@ -27,11 +27,9 @@ class Item < ActiveRecord::Base
   end
 
   def self.current_data
-    #@item = Item.create(data: nil)
     result = ItemsInteractor.call
-#    result = ItemsInteractor.call(item_id: @item.id)
     @quote_data = result.success? ? result.quote_data : []
-#    MessageBus.publish('/new_quote_data', @quote_data)
+    MessageBus.publish('/new_quote_data', quote_data: @quote_data)
     @quote_data
   end
 
