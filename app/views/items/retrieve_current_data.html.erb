@@ -1,3 +1,4 @@
+<div class = 'container'>
 <div class ="jumbotron">
   <h2> Current Prices </h2>
 </div> 
@@ -6,13 +7,14 @@
     <%=link_to 'Run Now', retrieve_data_path %>
   </div>
   <div class = "col-md-4">
+    <h5 id="hd-updated"> Last Updated at <%= Time.now %> </h5>
     <%#=link_to 'Start Capture', start_capture_path %>
   </div>
   <div class = "col-md-4">
     <%#=link_to 'Stop Capture', stop_capture_path(self.jid) %>
   </div>
 </div>
-<table class='table table-striped'>
+<table class='table table-striped current-data-table'>
   <thead>
     <tr>
       <th> Name</th>
@@ -21,17 +23,15 @@
     </tr>
   </thead>
   <tbody>
-  <% if @quote_data.present? %>
-  <%@quote_data_h = eval(@quote_data) %>
-  <% @quote_data_h.each do |item| %>
-    <tr> 
+  <% @quote_data.each do |item| %>
+    <tr id="<%= item['Name'] %>"> 
       <td> <%= item["Name"] %> </td>
       <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-      <%date=(DateTime.parse(item["LastTradeDate"])).strftime('%m\%d\%y') %>
+      <%date=item["LastTradeDate"] %>
       <%time=item["LastTradeWithTime"].split(' -').first %>
       <td> <%= [date, time].join(' ') %> </td>
     </tr>
   <%end%>
-  <%end%>
   </tbody>
 </table>
+</div>

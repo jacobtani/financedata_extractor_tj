@@ -22,5 +22,7 @@ module FinancedataExtractor
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    config.stock = ['SPK.NZ', 'YHOO', 'HOH16.NYM', 'RBH16.NYM', 'HGG16.CMX', 'GCG16.CMX','PAG16.NYM', 'PLH16.NYM', 'SIG16.CMX']
+
   end
 end

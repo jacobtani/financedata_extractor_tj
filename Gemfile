@@ -25,10 +25,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'jquery-turbolinks'                         #jQuery plugin for drop-in fix binded events problem caused by Turbolinks
 gem 'sinatra', require: false
 gem 'slim'
-gem 'puma', '2.15.3'                            # Simple, fast threaded and concurrent HTTP server
-
-gem 'foreman', '0.78.0'                         # Process manager for apps with multiple components
-
+gem 'interactor', '3.1.0'                       # Common interface to perform complex user interactions
+gem 'whenever', require: false
+gem 'message_bus'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -37,7 +36,6 @@ gem 'foreman', '0.78.0'                         # Process manager for apps with 
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'sidekiq' #background processing
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

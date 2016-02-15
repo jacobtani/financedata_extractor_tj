@@ -19,11 +19,18 @@ class Item < ActiveRecord::Base
 
   def self.form_url 
     initial_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20Name%2C%20LastTradePriceOnly%2C%20LastTradeDate%2C%20LastTradeWithTime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
-    Rails.configuration.stock_symbols.each do |h|
+    Rails.configuration.stock.each do |h|
       initial_url = [initial_url, h].join('')
       initial_url = [initial_url, '%22%2C%20%22'].join('')
     end
     initial_url = [initial_url, '%22%20)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys'].join('')  
+  end
+
+  def self.current_data
+    result = ItemsInteractor.call
+    @quote_data = result.success? ? result.quote_data : []
+    MessageBus.publish('/new_quote_data', quote_data: @quote_data)
+    @quote_data
   end
 
 
