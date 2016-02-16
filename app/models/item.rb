@@ -29,9 +29,20 @@ class Item < ActiveRecord::Base
   def self.current_data
     result = ItemsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
-    MessageBus.publish('/new_quote_data', quote_data: @quote_data)
+    @changed = Hash.new
+    @quote_data.each do |item|
+      @items = Item.all.where(name: item['Name']).order('created_at DESC').first
+      @last_price = item["LastTradePriceOnly"].to_f 
+      if @items.present? && @items.last_price != @last_price
+          @changed[item['Name']] = true 
+      else
+        @changed[item['Name']] = false 
+      end
+      Item.create(name: item['Name'], last_price: @last_price)
+    end
+    @quote_data
+    MessageBus.publish('/new_quote_data', quote_data: @quote_data, changed_data: @changed)
     @quote_data
   end
-
 
 end
