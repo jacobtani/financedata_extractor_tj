@@ -5,9 +5,9 @@
   <h5 id="hd-updated"> Last Updated at <%= Time.now %> </h5>
   <div class = "row">
     <div class="btn-group pull-right">
-      <%=link_to 'Run Now', retrieve_data_path, class: 'btn btn-primary' %>
-      <%=link_to 'Start Capture', start_capture_path, class: 'btn btn-primary' %>
-      <%=link_to 'Stop Capture', stop_capture_path, class: 'btn btn-primary' %>
+      <%=link_to 'Run Now', retrieve_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
+      <%=link_to 'Start Capture', start_capture_path, class: 'btn btn-primary', id: 'start-capture-button', format: :js, remote: true %>
+      <%=link_to 'Stop Capture', stop_capture_path, class: 'btn btn-primary', id: 'stop-capture-button', format: :js, remote: true %>
     </div>
   </div>
   <table class='table current-data-table'>
