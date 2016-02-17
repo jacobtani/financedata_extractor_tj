@@ -5,8 +5,9 @@ class Item < ActiveRecord::Base
   def self.get_history_data()
     @all_data = Array.new
     Rails.configuration.stock_symbols.each do |stock|
-      @history_data = Item.all.where(symbol: stock).order('created_at DESC').limit(5)
-      @all_data.push @history_data
+      @i= Item.select('distinct on (last_price) *').where(symbol: stock).limit(5)
+      @historic_data = @i.sort_by { |i| i[:created_at] }.reverse!
+      @all_data.push @historic_data
     end
     @all_data
   end
