@@ -1,29 +1,27 @@
 <div class ="jumbotron">
   <h2> Historical Data </h2>
-  <h5> <%=@no_data%></h5>
 </div> 
 <table class='table table-striped'>
   <thead>
     <tr>
       <th> Stock Symbol</th>
-      <th> Date</th>
-      <th> Open</th>
-      <th> Low </th>
-      <th> High </th>
-      <th> Close </th>
+      <th> Name</th>
+      <th> Date </th>
+      <th> Price </th>
+      <th> Retrieval Time </th>
+
     </tr>
   </thead>
   <tbody>
-  <% @all_data.each_with_index do |item, index| %>
-    <% item.each_with_index do |data_item, i| %>
-    <tr> 
-      <td> <%= data_item['Symbol'] %> </td>
-      <td> <%= data_item['Date'] %> </td>
-      <td> <%= number_to_currency data_item['Open'] %> </td>
-      <td> <%= number_to_currency data_item['Low'] %> </td>
-      <td> <%= number_to_currency data_item['High'] %> </td>
-      <td> <%= number_to_currency data_item['Close'] %> </td>
-    </tr>
+  <% @all_data.each do |item| %>
+    <% item.each do |i| %>
+      <tr> 
+        <td> <%= i.symbol %> </td>
+        <td> <%= i.name %> </td>
+        <td> <%= i.last_datetime %> </td>
+        <td> <%= number_to_currency i.last_price %> </td>
+        <td> <%= i.created_at.strftime('%d/%m/%y %H:%M:%S') %> </td>
+      </tr>
     <%end%>
   <%end%>
   </tbody>

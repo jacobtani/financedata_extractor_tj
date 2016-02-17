@@ -19,14 +19,7 @@ require 'net/http'
   end
 
   def search_all_history
-    @no_data = "Historic data does not exist for: "
-    @all_data = Array.new
-      Rails.configuration.stock_symbols.each do |stock|
-        @history_data = Item.get_history_data(stock)
-        @no_data.concat(' ' + stock) if @history_data == [] 
-        @all_data.push @history_data unless @history_data == []
-      end
-    flash[:info] = @no_data 
+    @all_data = Item.get_history_data
   end
 
 
