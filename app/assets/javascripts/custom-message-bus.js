@@ -19,8 +19,13 @@ checkQuoteData = function() {
     for(var i=0;i<quoteData.length; i++) {
       var item = quoteData[i];
       var name_substring = item.Name.substring(0,5);
-      $('.' + name_substring).children('td').eq(1).text('$' + item.LastTradePriceOnly);
-      $('.' + name_substring).children('td').eq(2).text(item.LastTradeDate + " " + (item.LastTradeWithTime).split(' -')[0]);
+      var price = (parseFloat(item.LastTradePriceOnly)).toFixed(2)
+      var currentDate = new Date(item.LastTradeDate);
+      var twoDigitMonth=((currentDate.getMonth()+1)>=10)? (currentDate.getMonth()+1) : '0' + (currentDate.getMonth()+1);  
+      var twoDigitDate=((currentDate.getDate())>=10)? (currentDate.getDate()) : '0' + (currentDate.getDate());
+      var date = twoDigitDate + "/" + twoDigitMonth + "/" + currentDate.getYear(); 
+      $('.' + name_substring).children('td').eq(1).text('$' + price);
+      $('.' + name_substring).children('td').eq(2).text(date + " " + (item.LastTradeWithTime).split(' -')[0]);
           
       if (changedData[item.Name].toString() == 'true') {
         $('.' + name_substring).addClass('highlight')
