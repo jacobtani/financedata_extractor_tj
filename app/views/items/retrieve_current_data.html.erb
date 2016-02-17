@@ -1,37 +1,34 @@
 <div class = 'container'>
-<div class ="jumbotron">
-  <h2> Current Prices </h2>
-</div> 
-<div class = "row">
-  <div class = "col-md-4">
-    <%=link_to 'Run Now', retrieve_data_path %>
+  <div class ="jumbotron">
+    <h2> Current Prices </h2>
+  </div> 
+  <h5 id="hd-updated"> Last Updated at <%= Time.now %> </h5>
+  <div class = "row">
+    <div class="btn-group pull-right">
+      <%=link_to 'Run Now', retrieve_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
+      <%=link_to 'Start Capture', start_capture_path, class: 'btn btn-primary', id: 'start-capture-button', format: :js, remote: true %>
+      <%=link_to 'Stop Capture', stop_capture_path, class: 'btn btn-primary', id: 'stop-capture-button', format: :js, remote: true %>
+    </div>
   </div>
-  <div class = "col-md-4">
-    <h5 id="hd-updated"> Last Updated at <%= Time.now %> </h5>
-    <%#=link_to 'Start Capture', start_capture_path %>
-  </div>
-  <div class = "col-md-4">
-    <%#=link_to 'Stop Capture', stop_capture_path(self.jid) %>
-  </div>
-</div>
-<table class='table table-striped current-data-table'>
-  <thead>
-    <tr>
-      <th> Name</th>
-      <th> Last Trade Price</th>
-      <th> Last Trade Date </th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @quote_data.each do |item| %>
-    <tr id="<%= item['Name'] %>"> 
-      <td> <%= item["Name"] %> </td>
-      <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-      <%date=item["LastTradeDate"] %>
-      <%time=item["LastTradeWithTime"].split(' -').first %>
-      <td> <%= [date, time].join(' ') %> </td>
-    </tr>
-  <%end%>
-  </tbody>
-</table>
+  <table class='table current-data-table'>
+    <thead>
+      <tr>
+        <th> Name</th>
+        <th> Last Trade Price</th>
+        <th> Last Trade Date </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @quote_data.each do |item| %>
+      <tr class="<%= (item['Name'])[0..5] %>"> 
+        <td> <%= item["Name"] %> </td>
+        <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
+        <% d = DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y") %>
+        <% date= d.strftime('%d/%m/%Y') %>
+        <%time=item["LastTradeWithTime"].split(' -').first %>
+        <td> <%= [date, time].join(' ') %> </td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
 </div>
