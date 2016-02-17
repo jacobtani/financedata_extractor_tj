@@ -23,7 +23,7 @@ checkQuoteData = function() {
       var currentDate = new Date(item.LastTradeDate);
       var twoDigitMonth=((currentDate.getMonth()+1)>=10)? (currentDate.getMonth()+1) : '0' + (currentDate.getMonth()+1);  
       var twoDigitDate=((currentDate.getDate())>=10)? (currentDate.getDate()) : '0' + (currentDate.getDate());
-      var date = twoDigitDate + "/" + twoDigitMonth + "/" + currentDate.getYear(); 
+      var date = twoDigitDate + "/" + twoDigitMonth + "/" + currentDate.getFullYear(); 
       $('.' + name_substring).children('td').eq(1).text('$' + price);
       $('.' + name_substring).children('td').eq(2).text(date + " " + (item.LastTradeWithTime).split(' -')[0]);
           
