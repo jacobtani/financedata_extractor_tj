@@ -6,8 +6,11 @@
   <div class = "row">
     <div class="btn-group pull-right">
       <%=link_to 'Run Now', retrieve_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
-      <%=link_to 'Start Capture', start_capture_path, class: 'btn btn-primary', id: 'start-capture-button', format: :js, remote: true %>
-      <%=link_to 'Stop Capture', stop_capture_path, class: 'btn btn-primary', id: 'stop-capture-button', format: :js, remote: true %>
+      <%if SiteConfig.active.running_stop == true%>      
+        <%=link_to 'Start Capture', start_capture_path(running_start: true, running_stop: false), class: 'btn btn-primary', id: 'start-capture-button' %>
+      <%else %>
+        <%=link_to 'Stop Capture', stop_capture_path(running_start: false, running_stop: true), class: 'btn btn-primary', id: 'stop-capture-button' %>
+      <%end%>
     </div>
   </div>
   <table class='table current-data-table'>
