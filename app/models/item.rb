@@ -40,57 +40,30 @@ class Item < ActiveRecord::Base
     @quote_data
   end
 
-  def self.my_method()
-#    ac = ActionController::Base.new()
- #   data = ac.render_to_string pdf: "filename", template: "/items/retrieve_current_data.pdf.erb", encoding: "UTF-8", footer: { right: '[page] of [topage]' }
+  def self.generate_pdf()
+    av = ActionView::Base.new()
+    av.view_paths = ActionController::Base.view_paths
+    av.class_eval do
+      include Rails.application.routes.url_helpers
+      include ApplicationHelper
+    end
+    pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data}
+    # use wicked_pdf gem to create PDF from the doc HTML
+    doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
+    filename = "Current-Stock-Prices--"
+    filename.gsub!(/ /,'-')
+#    begin 
+ #     file = Tempfile.new([filename, '.pdf']) 
+  #     file.binmode
+   ##   file.close
+     #  ActionController.new.send_file file.path
+    #end
+    # save PDF to disk
+    pdf_path = Rails.root.join('tmp', "YO.pdf")
+    File.open(pdf_path, 'wb') do |file|
+      file << doc_pdf
+    end
 
-  # view = ActionView::Base.new(ActionController::Base.view_paths, {})
-  # # include helpers and routes
-  # view.extend(ApplicationHelper)
-  # view.extend(Rails.application.routes.url_helpers)
-  # pdf = WickedPdf.new.pdf_from_string(
-  #    view.render_to_string(
-  #      :pdf => "invoice",
-  #      :template => 'items/retrieve_current_data.pdf.erb'
-  #    )
-  # )
-  # save_path = Rails.root.join('pdfs','filename.pdf')
-  # File.open(save_path, 'wb') do |file|
-  #   file << pdf
-  #end
-
-    content = File.read(Rails.root.join('app','views','items','retrieve_current_data.html.erb'))
-    html = ERB.new(content).result(binding)
-    html = html.gsub!(/\0/,'')  # There is a null byte in the rendered html, so we'll strip it out (this is kind of a hack)
-
-# #    content = File.read('#{Rails.root}/app/views/items/retrieve_current_data.erb')
-#     template = ERB.new(content).result(binding) 
-# #    html_content = template.result(binding) 
-#     # now you have html content
-#     pdf= WickedPdf.new.pdf_from_string(template)
-#   # then save to a file
-# #    binding.pry
-#   save_path = Rails.root.join('pdfs','filename.pdf')
-#   File.open(save_path, 'wb') do |file|
-#    file << pdf
-#   end
-
-
-
-
-
-    # data = AbstractController.new.render_to_string pdf: "filename", template: "/items/retrieve_current_data.pdf.erb", encoding: "UTF-8", footer: { right: '[page] of [topage]' }
-   
-    # filename = "Current-Stock-Prices--"
-    # filename.gsub!(/ /,'-')
-    # begin 
-    #   file = Tempfile.new([filename, '.pdf']) 
-    #   file.binmode
-    #   file.write data
-    #   file.close
-    # end
-    # file
-    # ApplicationController.send_file file.path
   end
 
 end

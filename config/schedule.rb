@@ -12,7 +12,7 @@ every 1.minutes do
 end
 
 every 1.minutes do
-  runner "Item.my_method", :environment => "development"
+  runner "Item.generate_pdf", :environment => "development"
 
 #  rake "items:fetch"
 	#Item.my_method
