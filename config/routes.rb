@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
    get 'items/stopcapture' => 'items#stop_capture', as: :stop_capture
    get 'items/startcapture' => 'items#start_capture', as: :start_capture
+   get 'items/generate_pdf_reports' => 'items#generate_pdf_reports', as: :generate_pdf_reports, :defaults => { :format => 'pdf' }
+
 end

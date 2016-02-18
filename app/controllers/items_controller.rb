@@ -1,13 +1,10 @@
 require 'net/http'
+require 'tempfile'
 
  class ItemsController < ApplicationController
 
   def index
     @items = Item.all
-  end
-
-  def show
-    @item = Item.find(params[:id])
   end
 
   def retrieve_current_data
@@ -35,12 +32,12 @@ require 'net/http'
   def generate_pdf_reports
     respond_to do |format|
       format.html do 
-        render :retrieve_current_data, :formats => [:html]
+        @quote_data = Item.current_data
+        render 'items/retrieve_current_data', locals: {quote_data: @quote_data}
       end
-      
       format.pdf do
         data = render_to_string pdf: "filename", template: "/items/retrieve_current_data.pdf.erb", encoding: "UTF-8", footer: { right: '[page] of [topage]' }
-        filename = "Hi--StatusReport--"
+        filename = "Current-Stock-Prices--"
         filename.gsub!(/ /,'-')
         begin 
           file = Tempfile.new([filename, '.pdf']) 
@@ -51,8 +48,7 @@ require 'net/http'
           file.close
         end
       end
-    
-    end
+    end    
   end
 
 end
