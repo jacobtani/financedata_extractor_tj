@@ -1,7 +1,6 @@
 require 'net/http'
 
  class ItemsController < ApplicationController
-#  before_action :create_site_config
 
   def index
     @items = Item.all
@@ -13,10 +12,6 @@ require 'net/http'
 
   def retrieve_current_data
     @quote_data = Item.current_data
-  end
-
-  def search_history
-    @history_data = Item.get_history_data(params[:search])
   end
 
   def search_all_history
