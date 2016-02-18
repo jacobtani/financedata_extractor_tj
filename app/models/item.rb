@@ -1,4 +1,5 @@
 require 'net/http'
+require 'tempfile'
 
 class Item < ActiveRecord::Base
 
@@ -40,7 +41,7 @@ class Item < ActiveRecord::Base
     @quote_data
   end
 
-  def self.generate_pdf()
+  def self.generate_pdf
     av = ActionView::Base.new()
     av.view_paths = ActionController::Base.view_paths
     av.class_eval do
@@ -52,17 +53,18 @@ class Item < ActiveRecord::Base
     doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
     filename = "Current-Stock-Prices--"
     filename.gsub!(/ /,'-')
-#    begin 
- #     file = Tempfile.new([filename, '.pdf']) 
-  #     file.binmode
-   ##   file.close
-     #  ActionController.new.send_file file.path
-    #end
-    # save PDF to disk
-    pdf_path = Rails.root.join('tmp', "YO.pdf")
-    File.open(pdf_path, 'wb') do |file|
-      file << doc_pdf
+    begin 
+      file = Tempfile.new([filename, '.pdf']) 
+       file.binmode
+       file.write doc_pdf
+       file.close
     end
+    file
+    # save PDF to disk
+#    pdf_path = Rails.root.join('tmp', "YO.pdf")
+ #   File.open(pdf_path, 'wb') do |file|
+  #    file << doc_pdf
+   # end
 
   end
 

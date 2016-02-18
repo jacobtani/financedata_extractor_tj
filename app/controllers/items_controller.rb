@@ -1,4 +1,5 @@
 require 'net/http'
+require 'tempfile'
 
  class ItemsController < ApplicationController
 #  include AbstractController::Rendering
@@ -30,8 +31,7 @@ require 'net/http'
   end
 
   def generate_pdf_reports
-    data = render_to_string pdf: "filename", template: "/items/retrieve_current_data.pdf.erb", encoding: "UTF-8", footer: { right: '[page] of [topage]' }
-    file = Item.my_method(data)
+    file = Item.generate_pdf
     send_file file.path
   end
 
