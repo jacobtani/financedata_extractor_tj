@@ -10,6 +10,13 @@
 every 1.minutes do
   runner "Item.current_data", :environment => "development"
 end
+
+every 1.minutes do
+  runner "Item.my_method", :environment => "development"
+
+#  rake "items:fetch"
+	#Item.my_method
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"

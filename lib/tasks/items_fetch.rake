@@ -1,6 +1,7 @@
 namespace :items do
-  desc "Get recent stock data"
+  desc "Get pdf stock data"
   task :fetch => :environment do 
-  	Item.current_data
+  	@controller = ItemsController.new
+  	@controller.generate_pdf_reports
   end
 end
