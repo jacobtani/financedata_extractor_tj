@@ -1,6 +1,6 @@
 <div class = 'container'>
   <div class ="jumbotron">
-    <h2> Current Prices </h2>
+    <h2> Current Stock Data </h2>
   </div> 
   <h6 id="hd-updated" align="right">Last Updated at <%= DateTime.now.strftime('%d-%m-%Y %H:%M:%S') %></h6>
   <div class = "row">
@@ -16,7 +16,8 @@
   <table class='table current-data-table'>
     <thead>
       <tr>
-        <th> Name</th>
+        <th> Stock Symbol</th>
+        <th> Stock Name</th>
         <th> Last Trade Price</th>
         <th> Last Trade Date and Time </th>
       </tr>
@@ -24,6 +25,7 @@
     <tbody>
     <% quote_data.each do |item| %>
       <tr class="<%= (item['Name'])[0..5] %>"> 
+        <td> <%= item["Symbol"] %> </td>
         <td> <%= item["Name"] %> </td>
         <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
         <% d = DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y") %>
