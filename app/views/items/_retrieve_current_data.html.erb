@@ -2,7 +2,7 @@
   <div class ="jumbotron">
     <h2> Current Prices </h2>
   </div> 
-  <h5 id="hd-updated"> Last Updated at <%= DateTime.now %> </h5>
+  <h6 id="hd-updated" align="right">Last Updated at <%= DateTime.now.strftime('%d-%m-%Y %H:%M:%S') %></h6>
   <div class = "row">
     <div class="btn-group pull-right">
       <%=link_to 'Run Now', retrieve_current_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
@@ -18,7 +18,7 @@
       <tr>
         <th> Name</th>
         <th> Last Trade Price</th>
-        <th> Last Trade Date </th>
+        <th> Last Trade Date and Time </th>
       </tr>
     </thead>
     <tbody>
