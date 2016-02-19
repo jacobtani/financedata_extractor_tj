@@ -39,8 +39,8 @@ checkCurrentData = function() {
       var date_ready = formatDate(currentDate);
 
       //Update data in current table
-      $('.' + name_substring).children('td').eq(1).text('$' + price);
-      $('.' + name_substring).children('td').eq(2).text(date_ready + " " + (item.LastTradeWithTime).split(' -')[0]);
+      $('.' + name_substring).children('td').eq(2).text('$' + price);
+      $('.' + name_substring).children('td').eq(3).text(date_ready + " " + (item.LastTradeWithTime).split(' -')[0]);
       
       //Determine if data has changed state or not and add highlighting if necessary    
       if (changedData[item.Name].toString() == 'true') {
