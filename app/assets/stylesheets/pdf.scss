@@ -1,0 +1,71 @@
+/*
+ *= require_directory ../../../vendor/assets/stylesheets/common
+ *= require_directory ./common
+ *= require_self
+ */
+
+legend {
+  margin-top: 60px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  display: block;
+  padding-left: 2px;
+  padding-right: 2px;
+  border: none;
+}
+@import "bootstrap";
+@import "bootstrap-sprockets";
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
+@import "bootstrap/variables";
+
+@import "bootstrap-sprockets"; //this allow the gliphicon to work
+
+/***  Variables  ***/
+@import "bootstrap/variables";
+
+/***  Mixins  ***/
+@import "bootstrap/mixins";
+
+.footer, .header {
+  color: #999999;
+}
+
+.left {
+  float: left;
+}
+
+.draft {
+  color: red;
+}
+
+.section.depth-0 {
+  page-break-before: always;
+}
+
+.section.first {
+  page-break-before: avoid;
+}
+
+.with_break {
+  page-break-inside: auto;
+}
+
+.no_break {
+  page-break-inside: avoid;
+}
+
+
+/*table {
+  @include table-bordered;
+  @include table-wrapped;
+}*/
+
+.wrapped-text {
+  word-wrap: break-word;
+}

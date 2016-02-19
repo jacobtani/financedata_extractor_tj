@@ -8,4 +8,6 @@ class ItemsInteractor
     context.quote_data = xml_data ["query"]["results"]["quote"] if xml_data.present?
   end
 
+  
+
 end
