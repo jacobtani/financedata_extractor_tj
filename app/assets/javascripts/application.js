@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//=require bootstrap-sprockets
+//= require bootstrap-sprockets
 //= require message-bus
 //= require custom-message-bus
 //= require_tree .
