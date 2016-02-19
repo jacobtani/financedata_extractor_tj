@@ -9,7 +9,7 @@ initMessageBus = function() {
 formatDate = function (currentDate) {
   var twoDigitMonth=((currentDate.getMonth()+1)>=10)? (currentDate.getMonth()+1) : '0' + (currentDate.getMonth()+1);  
   var twoDigitDate=((currentDate.getDate())>=10)? (currentDate.getDate()) : '0' + (currentDate.getDate());
-  var date_formatted = twoDigitDate + "-" + twoDigitMonth + "-" + currentDate.getFullYear(); 
+  var date_formatted = twoDigitDate + "/" + twoDigitMonth + "/" + currentDate.getFullYear(); 
   return date_formatted
 };
 

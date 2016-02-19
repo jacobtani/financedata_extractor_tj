@@ -2,7 +2,7 @@
   <div class ="jumbotron">
     <h2> Current Stock Data </h2>
   </div> 
-  <h6 id="hd-updated" align="right">Last Updated at <%= DateTime.now.strftime('%d-%m-%Y %H:%M:%S') %></h6>
+  <h6 id="hd-updated" align="right">Last Updated at <%= DateTime.now.strftime('%d/%m/%Y %H:%M:%S') %></h6>
   <div class = "row">
     <div class="btn-group pull-right">
       <%=link_to 'Run Now', retrieve_current_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
@@ -28,7 +28,7 @@
         <td> <%= item["Symbol"] %> </td>
         <td> <%= item["Name"] %> </td>
         <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-        <% d = DateTime.strptime(item["LastTradeDate"], "%m-%d-%Y") %>
+        <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
         <% date= d.strftime('%d/%m/%Y') %>
         <%time=item["LastTradeWithTime"].split(' -').first %>
         <td> <%= [date, time].join(' ') %> </td>
