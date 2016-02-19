@@ -30,9 +30,4 @@ require 'tempfile'
     redirect_to retrieve_data_path
   end
 
-  def generate_pdf_reports
-    file = Item.generate_pdf
-    send_file file.path
-  end
-
 end
