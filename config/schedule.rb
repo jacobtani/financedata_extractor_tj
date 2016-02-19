@@ -6,6 +6,6 @@ every 1.minutes do
 end
 
 #Create text report every hour of stock data
-every 1.hour do
+every :hour do
   runner "Item.generate_pdf", :environment => "development"
 end
