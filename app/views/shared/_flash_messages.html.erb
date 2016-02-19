@@ -1,0 +1,8 @@
+<% flash.each do |type, message| %>
+  <div class="flash <%= flash_class(type) %> col-sm-6 col-sm-offset-3 fade in">
+    <%= message %>
+  </div>
+<% end %>
+
+<%# Ajax Flashes  %>
+<div class="row" id="flash-message"></div>

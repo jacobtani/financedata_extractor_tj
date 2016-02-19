@@ -17,3 +17,26 @@
 .highlight {
   background-color:#FFB6C1;
 }
+
+.flash{
+  background-color: rgba(0, 75, 109, 0.17);
+  color: #008080;
+  font: {
+    family: "Avenir Next";
+    size: 1.3em;
+    weight: 500;
+  }
+  border-radius: 1px;
+  text-align: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-top: 5px;
+  &.danger-alert{
+    background-color: rgba(177, 0, 0, 0.13);
+    color: #564444;
+  }
+  &.warning-alert{
+    background-color: rgba(150, 150, 0, 0.18);
+    color: rgb(97, 97, 0);
+  }
+}
