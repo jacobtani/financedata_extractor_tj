@@ -40,7 +40,7 @@ class Item < ActiveRecord::Base
       else
         @changed[item['Name']] = false 
       end
-      Item.create(name: item['Name'], last_price: @last_price, symbol: item['Symbol'])
+      Item.create(name: item['Name'], last_datetime: item['LastTradeDate'], last_price: @last_price, symbol: item['Symbol'])
     end
     @quote_data
     #send quote data and changed data status to client
