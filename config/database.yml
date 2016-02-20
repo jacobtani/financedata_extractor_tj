@@ -8,12 +8,12 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  database: financedata_dev
+  database: financedatadb_dev
 
 test:
   <<: *defaults
-  database: financedata_test
+  database: financedatadb_test
 
 production:
   <<: *defaults
-  database: financedata_prod
+  database: financedatadb_prod
