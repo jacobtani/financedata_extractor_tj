@@ -1,28 +1,37 @@
-== README
+				YFExtractor
+=================================================
+A tool that extracts data from the Yahoo Finance web service.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The following capabilities are provided in the application
 
-Things you may want to cover:
+* Captures the live prices of any commodities or stocks at a configurable time interval (default is 1 minute)
+* Displays the last 5 prices of each stock in the Historical Data page
+* Creates a text report of current stock data on a hourly basis
 
-* Ruby version
+Technologies built on:
+* Ruby on Rails
+* Postgresql Database
 
-* System dependencies
+Ruby version: 2.2.2
 
-* Configuration
+Database Configuration:
+* rake db:drop db:create db:migrate
 
-* Database creation
+Background Processes:
+There are two background processes (cron jobs) running in the application using the whenever gem. 
+* retrieving the current stock data - every minute
+* creating a text report of new stock data
 
-* Database initialization
+A redis server will need to be run on your machine coincidentally at the same time as you run the rails server with the application
 
-* How to run the test suite
+To adapt the application for your needs the following information will be useful:
+Change the stock symbols to process:
+* config/application.rb
 
-* Services (job queues, cache servers, search engines, etc.)
+Change the background task intervals:
+* config/schedule.rb 
+* For more information on acceptable task intervals please refer to https://github.com/javan/whenever
+* After updating the jobs in the file described, you will need to run the following command: :
+  whenever --update-crontab
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
