@@ -1,4 +1,4 @@
-				### YFExtractor
+### YFExtractor
 ================================================
 `YFExtractor` is a tool that extracts data from the Yahoo Finance web service. It has the following capabilities:
 
@@ -26,17 +26,16 @@
 
 ### Database
 
-YFExtractor uses a PostgreSQL database to build the application. Ensure you have it running on your machine (please refer to http://www.gotealeaf.com/blog/how-to-install-postgresql-on-a-mac
-)
+YFExtractor uses a PostgreSQL database to build the application. Ensure you have it running on your machine (please refer to http://www.gotealeaf.com/blog/how-to-install-postgresql-on-a-mac)
 
 ### Redis
 
-YFExtractor uses a Redis database to enqueue jobs in Redis to be processed by the cron jobs. Ensure it is running prior to booting the application. 
+YFExtractor uses a Redis database to enqueue jobs in Redis to be processed by the cron jobs. Ensure it is running prior to booting the application (please refer to: https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298#.e8a56wu3d).
 
 ### Background Processes:
 
-There are two background processes (cron jobs) running in the application which are as follows: 
-* Retrieving the current stock data - every minute
+There are two background processes (cron jobs) running in the application:  
+* Retrieving the current stock data 
 * Creating a text report of new stock data
 
 ### Adapting the Application
@@ -46,9 +45,9 @@ Change the stock symbols to process:
 
 Change the background task intervals:
 * config/schedule.rb 
-* After updating the jobs in the file described, you will need to run the following command `whenever --update-crontab`
+* After updating the jobs scheduling interval, you will need to run the following command `whenever --update-crontab`
 
-References
+### References
 
 * developer.yahoo.com/yql/console
 
