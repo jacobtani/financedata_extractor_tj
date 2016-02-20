@@ -18,9 +18,9 @@
 
 * Configure the application to your needs: stock symbols to process and background task intervals (see below)
 
-** Update the cron jobs 'whenever --update-crontab'
+* Update the cron jobs 'whenever --update-crontab'
 
-** Start redis server 'redis-server /usr/local/etc/redis.conf'
+* Start Redis server 'redis-server /usr/local/etc/redis.conf'
 
 * Run application server: `rails s`
 
@@ -35,9 +35,9 @@ YFExtractor uses a Redis database to enqueue jobs in Redis to be processed by th
 
 ### Background Processes:
 
-There are two background processes (cron jobs) running in the application using the whenever gem. 
-* retrieving the current stock data - every minute
-* creating a text report of new stock data
+There are two background processes (cron jobs) running in the application which are as follows: 
+* Retrieving the current stock data - every minute
+* Creating a text report of new stock data
 
 ### Adapting the Application
 
@@ -46,6 +46,12 @@ Change the stock symbols to process:
 
 Change the background task intervals:
 * config/schedule.rb 
-* For more information on acceptable task intervals please refer to https://github.com/javan/whenever
-* After updating the jobs in the file described, you will need to run the following command: :
-  whenever --update-crontab
+* After updating the jobs in the file described, you will need to run the following command 'whenever --update-crontab'
+
+References
+
+* developer.yahoo.com/yql/console
+
+* https://github.com/javan/whenever
+
+* http://finance.yahoo.com/lookup
