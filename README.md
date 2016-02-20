@@ -41,7 +41,9 @@ There are two background processes (cron jobs) running in the application:
 
 ### Adapting the Application
 
-Change the stock symbols to process:
+The application can be adapted to your own needs in the following ways: 
+
+Change the stock symbols to display:
 * config/application.rb
 
 Change the background task intervals:
