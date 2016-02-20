@@ -33,7 +33,7 @@ YFExtractor uses a PostgreSQL database to build the application. Ensure you have
 
 YFExtractor uses a Redis database to enqueue jobs in Redis to be processed by the cron jobs. Ensure it is running prior to booting the application (please refer to: https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298#.e8a56wu3d).
 
-### Background Processes:
+### Background Processes
 
 There are two background processes (cron jobs) running in the application:  
 * Retrieving the current stock data 
