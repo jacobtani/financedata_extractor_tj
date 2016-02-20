@@ -1,6 +1,6 @@
-				##YFExtractor
-=================================================
-'YFExtractor' is a tool that extracts data from the Yahoo Finance web service. It has the following capabilities:
+				### YFExtractor
+================================================
+`YFExtractor` is a tool that extracts data from the Yahoo Finance web service. It has the following capabilities:
 
 * Captures the live prices of any commodities or stocks at a configurable time interval (default is 1 minute)
 * Displays the last 5 prices of each stock in the Historical Data page
@@ -18,9 +18,9 @@
 
 * Configure the application to your needs: stock symbols to process and background task intervals (see below)
 
-* Update the cron jobs 'whenever --update-crontab'
+* Update the cron jobs: `whenever --update-crontab`
 
-* Start Redis server 'redis-server /usr/local/etc/redis.conf'
+* Start Redis server: `redis-server /usr/local/etc/redis.conf`
 
 * Run application server: `rails s`
 
@@ -46,7 +46,7 @@ Change the stock symbols to process:
 
 Change the background task intervals:
 * config/schedule.rb 
-* After updating the jobs in the file described, you will need to run the following command 'whenever --update-crontab'
+* After updating the jobs in the file described, you will need to run the following command `whenever --update-crontab`
 
 References
 
