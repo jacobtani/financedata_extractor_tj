@@ -35,8 +35,6 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
-  config.stock_symbols = ['SPK.NZ', 'YHOO', 'HOH16.NYM', 'RBH16.NYM', 'HGG16.CMX', 'GCG16.CMX','PAG16.NYM', 'PLH16.NYM', 'SIG16.CMX']
-  config.refresh_interval = 10.minutes
   config.assets.compile= true
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
