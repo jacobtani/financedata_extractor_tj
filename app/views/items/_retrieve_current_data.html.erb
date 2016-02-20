@@ -3,9 +3,11 @@
     <h2> Current Stock Data </h2>
   </div> 
   <h6 id="hd-updated" align="right">Last Updated at <%= DateTime.now.strftime('%d/%m/%Y %H:%M:%S') %></h6>
+
   <div class = "row">
     <div class="btn-group pull-right">
       <%=link_to 'Run Now', retrieve_current_data_path, class: 'btn btn-primary', id: 'run-now-button' %>
+      <!-- prevent start and stop capture buttons appearing at the same time -->
       <%if SiteConfig.active.running_stop == true%>      
         <%=link_to 'Start Capture', start_capture_path(running_start: true, running_stop: false), class: 'btn btn-primary', id: 'start-capture-button' %>
       <%else %>

@@ -19,7 +19,7 @@
         <tr> 
           <td> <%= i.symbol %> </td>
           <td> <%= i.name %> </td>
-          <td> <%= i.last_datetime %> </td>
+          <td> <%= (i.last_datetime).strftime('%d/%m/%y') %> </td>
           <td> <%= number_to_currency i.last_price %> </td>
           <td> <%= i.created_at.strftime('%d/%m/%y %H:%M:%S') %> </td>
         </tr>
