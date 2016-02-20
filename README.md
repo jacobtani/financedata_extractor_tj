@@ -1,10 +1,10 @@
 ### YFExtractor
 ================================================
-`YFExtractor` is a tool that extracts data from the Yahoo Finance web service. It has the following capabilities:
+`YFExtractor` is a tool that captures financial data from the Yahoo Finance web service. It has the following capabilities:
 
-* Captures the live prices of any commodities or stocks at a configurable time interval (default is 1 minute)
-* Displays the last 5 prices of each stock in the Historical Data page
-* Creates a text report of current stock data on a hourly basis (default)
+* Captures the live prices of any commodities or stocks at a configurable time interval
+* Displays the last 5 prices of each stock
+* Creates a text report of current stock data on a hourly basis
 
 ### Setup 
 
@@ -18,6 +18,8 @@
 
 * Configure the application to your needs: stock symbols to process and background task intervals (see below)
 
+* Adapt the application to your needs (see below)
+
 * Update the cron jobs: `whenever --update-crontab`
 
 * Start Redis server: `redis-server /usr/local/etc/redis.conf`
@@ -26,7 +28,7 @@
 
 ### Database
 
-YFExtractor uses a PostgreSQL database to build the application. Ensure you have it running on your machine (please refer to http://www.gotealeaf.com/blog/how-to-install-postgresql-on-a-mac)
+YFExtractor uses a PostgreSQL database to build the application. Ensure you have it running on your machine (please refer to: http://www.gotealeaf.com/blog/how-to-install-postgresql-on-a-mac)
 
 ### Redis
 
@@ -54,3 +56,7 @@ Change the background task intervals:
 * https://github.com/javan/whenever
 
 * http://finance.yahoo.com/lookup
+
+### Author
+
+* Tania Jacob (https://github.com/jacobtani)
