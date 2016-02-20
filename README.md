@@ -1,5 +1,4 @@
 ### YFExtractor
-================================================
 `YFExtractor` is a tool that captures financial data from the Yahoo Finance web service. It has the following capabilities:
 
 * Captures the live prices of any commodities or stocks at a configurable time interval
