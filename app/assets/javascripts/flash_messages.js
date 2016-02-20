@@ -29,5 +29,5 @@ $(document).ajaxComplete(function(event, request) {
 });
 
 flashCallback = function() {
-  return $(".flash").fadeOut(900);
+  return $(".flash").fadeOut(1200);
 };
