@@ -10,6 +10,8 @@ module FinancedataExtractor
     config.active_record.raise_in_transactional_callbacks = true
     config.stock = ['SPK.NZ', 'YHOO', 'HOH16.NYM', 'RBH16.NYM', 'HGG16.CMX', 'GCG16.CMX','PAG16.NYM', 'PLH16.NYM', 'SIG16.CMX']
     config.assets.compile= true
-
+    config.after_initialize do 
+      Item.current_data
+    end
   end
 end
