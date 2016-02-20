@@ -1,0 +1,36 @@
+<div class = 'container'>
+  <div class ="jumbotron">
+    <h2> Historic Stock Data </h2>
+  </div> 
+  <%if @all_historic_data.present? %>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th> Stock Symbol</th>
+          <th> Stock Name</th>
+          <th> Trade Date </th>
+          <th> Trade Price </th>
+          <th> Capture Time </th>
+
+        </tr>
+      </thead>
+      <tbody>
+      <% @all_historic_data.each do |item| %>
+        <% item.each do |i| %>
+          <tr> 
+            <td> <%= i.symbol %> </td>
+            <td> <%= i.name %> </td>
+            <td> <%= (i.last_datetime).strftime('%d/%m/%y') %> </td>
+            <td> <%= number_to_currency i.last_price %> </td>
+            <td> <%= i.created_at.strftime('%d/%m/%y %H:%M:%S') %> </td>
+          </tr>
+        <%end%>
+      <%end%>
+      </tbody>
+    </table>
+  <%else %>
+    <div class = "dialog">
+      <h3> <%= I18n.t("unavailable_data") %> </h3>
+    </div>
+  <%end%>
+</div>

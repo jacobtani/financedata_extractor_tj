@@ -9,7 +9,7 @@ initMessageBus = function() {
 formatDate = function (currentDate) {
   var twoDigitMonth=((currentDate.getMonth()+1)>=10)? (currentDate.getMonth()+1) : '0' + (currentDate.getMonth()+1);  
   var twoDigitDate=((currentDate.getDate())>=10)? (currentDate.getDate()) : '0' + (currentDate.getDate());
-  var date_formatted = twoDigitDate + "-" + twoDigitMonth + "-" + currentDate.getFullYear(); 
+  var date_formatted = twoDigitDate + "/" + twoDigitMonth + "/" + currentDate.getFullYear(); 
   return date_formatted
 };
 
@@ -39,8 +39,8 @@ checkCurrentData = function() {
       var date_ready = formatDate(currentDate);
 
       //Update data in current table
-      $('.' + name_substring).children('td').eq(1).text('$' + price);
-      $('.' + name_substring).children('td').eq(2).text(date_ready + " " + (item.LastTradeWithTime).split(' -')[0]);
+      $('.' + name_substring).children('td').eq(2).text('$' + price);
+      $('.' + name_substring).children('td').eq(3).text(date_ready + " " + (item.LastTradeWithTime).split(' -')[0]);
       
       //Determine if data has changed state or not and add highlighting if necessary    
       if (changedData[item.Name].toString() == 'true') {

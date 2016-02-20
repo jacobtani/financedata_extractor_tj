@@ -10,6 +10,9 @@
   <div id = 'navbar' >
     <%= render 'shared/navbar' %>
   </div>
+  <div class = 'row'>
+    <%= render 'shared/flash_messages', flash: flash %>
+  </div>
   <div id = "container">
     <%= yield %>
   </div>

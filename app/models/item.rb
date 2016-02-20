@@ -34,16 +34,18 @@ class Item < ActiveRecord::Base
     @quote_data.each do |item|
       #Check whether item price has changed or not
       @items = Item.all.where(name: item['Name']).order('created_at DESC').first
-      @last_price = (item["LastTradePriceOnly"].to_f).round(2)
+      @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
+      @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
+      @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
       if @items.present? && @items.last_price != @last_price
-          @changed[item['Name']] = true 
+        @changed[item['Name']] = true 
       else
         @changed[item['Name']] = false 
       end
-      Item.create(name: item['Name'], last_datetime: item['LastTradeDate'], last_price: @last_price, symbol: item['Symbol'])
+      # add to db
+      Item.create(name: item['Name'], last_datetime: @last_date, last_price: @last_price, symbol: item['Symbol'])
     end
-    @quote_data
-    #send quote data and changed data status to client
+    #send quote data and changed data status to client using message bus
     MessageBus.publish('/new_quote_data', quote_data: @quote_data, changed_data: @changed)
     @quote_data
   end
@@ -68,13 +70,16 @@ class Item < ActiveRecord::Base
       file.write doc_pdf
       #make the directory to write the file to
       FileUtils::mkdir_p Dir.home + '/stock_pdfs'
-      #set file path
+      #set file path to user's home directory within the stock_pdfs folder
       path = Dir.home + "/stock_pdfs/" + filename + '.pdf'
       #download file contents to the path specified
       open(path, 'wb') do |f|
         f << doc_pdf
       end
       file.close
+      #in case IO exception occurs whilst dealing with file
+    rescue IOError => e
+      puts e.message
     end
   end
 
