@@ -15,27 +15,33 @@
       <%end%>
     </div>
   </div>
-  <table class='table current-data-table'>
-    <thead>
-      <tr>
-        <th> Stock Symbol</th>
-        <th> Stock Name</th>
-        <th> Last Trade Price</th>
-        <th> Last Trade Date and Time </th>
-      </tr>
-    </thead>
-    <tbody>
-    <% quote_data.each do |item| %>
-      <tr class="<%= (item['Name'])[0..5] %>"> 
-        <td> <%= item["Symbol"] %> </td>
-        <td> <%= item["Name"] %> </td>
-        <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-        <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
-        <% date= d.strftime('%d/%m/%Y') %>
-        <%time=item["LastTradeWithTime"].split(' -').first %>
-        <td> <%= [date, time].join(' ') %> </td>
-      </tr>
-    <%end%>
-    </tbody>
-  </table>
+  <%if quote_data.present? %>
+    <table class='table current-data-table'>
+      <thead>
+        <tr>
+          <th> Stock Symbol</th>
+          <th> Stock Name</th>
+          <th> Last Trade Price</th>
+          <th> Last Trade Date and Time </th>
+        </tr>
+      </thead>
+      <tbody>
+      <% quote_data.each do |item| %>
+        <tr class="<%= (item['Name'])[0..5] %>"> 
+          <td> <%= item["Symbol"] %> </td>
+          <td> <%= item["Name"] %> </td>
+          <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
+          <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
+          <% date= d.strftime('%d/%m/%Y') %>
+          <%time=item["LastTradeWithTime"].split(' -').first %>
+          <td> <%= [date, time].join(' ') %> </td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+  <%else %>
+    <div class = "dialog">
+      <h3> Service is currently unavailable </h3>
+    </div>
+  <%end%>
 </div>
