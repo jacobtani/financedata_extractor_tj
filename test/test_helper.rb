@@ -14,6 +14,14 @@ class ActiveSupport::TestCase
   include Capybara::DSL
   include Capybara::Assertions
 
+# Test Helper methods
+  setup do
+    SiteConfig.create(
+      running_start: false,
+      running_end: true
+    )
+  end
+ 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
