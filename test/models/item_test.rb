@@ -11,8 +11,9 @@ require 'test_helper'
 
 class ItemTest < ActiveSupport::TestCase
 
-  describe "Location" do
-
+  describe "Item" do
+	let(:spark)     { items(:spark)   } #spark stock
+	
 
 
 
