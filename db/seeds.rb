@@ -1,7 +1,39 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+stocks = Stock.create([
+  {symbol: 'AIA.NZ', name: 'Auckland International Airport Limited'},
+  {symbol: 'AIR.NZ', name: 'Air New Zealand Limited'},
+  {symbol: 'ANZ.NZ', name: 'Australia & New Zealand Banking Group Limited'},
+  {symbol: 'ARG.NZ', name: 'Argosy Property Limited Ordinar'},
+  {symbol: 'ATM.NZ', name: 'A2 Corporation Limited'},
+  {symbol: 'CEN.NZ', name: 'Contact Energy Limited'},
+  {symbol: 'CNU.NZ', name: 'Chorus Limited (NS) Ordinary Sh'},
+  {symbol: 'DIL.NZ', name: 'Diligent Board Member Services INC'},
+  {symbol: 'DNZ.NZ', name: 'DNZ Property Fund Limited Ordin'},
+  {symbol: 'EBO.NZ', name: 'Ebos Group Limited'},
+  {symbol: 'MFT.NZ', name: 'Mainfreight Limited'},
+  {symbol: 'MHI.NZ', name: 'Michael Hill International Limited'},
+  {symbol: 'MRP.NZ', name: 'MIGHTY RIVER POWER NPV'},
+  {symbol: 'NPX.NZ', name: 'Nuplex Industries Limited'},
+  {symbol: 'NZO.NZ', name: 'New Zealand Oil & Gas Ltd.'},
+  {symbol: 'NZX.NZ', name: 'NZX Ltd'},
+  {symbol: 'OGC.NZ', name: 'OceanaGold Corporation'},
+  {symbol: 'PCT.NZ', name: 'Precinct Properties New Zealand'},
+  {symbol: 'PFI.NZ', name: 'Property For Industry Limited'},
+  {symbol: 'POT.NZ', name: 'Port of Tauranga Limited'},
+  {symbol: 'RBD.NZ', name: 'Restaurant Brands NZ Limited'},
+  {symbol: 'RYM.NZ', name: 'Ryman Healthcare Limited'},
+  {symbol: 'SKC.NZ', name: 'Skycity Entertainment Group Ltd'},
+  {symbol: 'SKL.NZ', name: 'Skellerup Holdings Limited'},
+  {symbol: 'SKT.NZ', name: 'Sky Network Television Limited'},
+  {symbol: 'STU.NZ', name: 'Steel & Tube Holdings Ltd.'},
+  {symbol: 'SUM.NZ', name: 'SUMMERSET GROUP HOLDINGS LIMITE'},
+  {symbol: 'TEL.NZ', name: 'Telecom Corporation of New Zealand Ltd'},
+  {symbol: 'TME.NZ', name: 'TRADE ME GROUP LTD NPV'},
+  {symbol: 'TPW.NZ', name: 'TrustPower Limited'},
+  {symbol: 'TWR.NZ', name: 'Tower Limited'},
+  {symbol: 'VCT.NZ', name: 'Vector Limited'},
+  {symbol: 'VHP.NZ', name: 'Vital Healthcare Property Trust'},
+  {symbol: 'WBC.NZ', name: 'Westpac Banking Corporation'},
+  {symbol: 'WHS.NZ', name: 'Warehouse Group Limited (The)'},
+  {symbol: 'XRO.NZ', name: 'Xero Ltd'},
+  {symbol: 'ZEL.NZ', name: 'Z ENERGY LIMITED NPV'}
+])
