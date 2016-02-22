@@ -1,0 +1,24 @@
+$("#new-subscription-form").addClass('hidden');
+$("#new-subscription-link").addClass('hidden');
+$("#edit-subscription-form").removeClass('hidden');
+$("#edit-subscription-link").attr('disabled', 'disabled');
+$("#edit-subscription-form").html('<%= j render("form", subscription: @subscription, current_user: current_user, path: subscription_path(@subscription), title: "Update Subscription") %>')
+$(document).trigger('init_placeholder');
+
+//if click outside the form, close it and make the button enabled
+var subscription = "#edit_subscription_" + <%=@subscription.id%>;
+var container = $(subscription);
+
+$(document).mouseup(function (e) {
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      if ( !$("#edit-subscription-link").is(e.target) ) {
+        container.hide();
+      };
+      $("#edit-subscription-link").removeAttr('disabled', 'disabled');
+    }
+});
+
+$("#add-subscription-cancel-button").on("click", function () {
+  $("#edit-subscription-link").removeAttr('disabled', 'disabled');
+  container.hide();
+});

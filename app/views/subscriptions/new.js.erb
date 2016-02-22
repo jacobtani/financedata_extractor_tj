@@ -1,0 +1,21 @@
+//do the following actions when creating a new subscription
+$(".dialog").addClass('hidden');
+$("#edit-subscription-form").addClass('hidden');
+$("#new-subscription-form").removeClass('hidden');
+$("#new-subscription-form").html('<%= j render("form", subscription: @subscription, current_user: current_user, title: "Add Subscription", path: subscriptions_path(@subscription)) %>')
+$("#new-subscription-link").attr('disabled', 'disabled');
+$(document).trigger('init_placeholder');
+
+//if click outside the form, close it and make the button enabled
+var container = $("#new_subscription");
+$(document).mouseup(function (e) {
+  if (!container.is(e.target) && container.has(e.target).length === 0) {
+    container.hide();
+    $("#new-subscription-link").removeAttr('disabled', 'disabled');
+  }
+});
+//if cancel button is clicked, make button enabled
+$("#add-subscription-cancel-button").on("click", function () {
+  $("#new-subscription-link").removeAttr('disabled', 'disabled');
+  container.hide();
+});

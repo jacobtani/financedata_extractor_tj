@@ -1,0 +1,22 @@
+<%= form_for @subscription, url: path, title: title, remote: true, html: {mulitpart: true, class: 'well', role: 'form'} do |f| %>
+  <div id="form-errors"></div>
+  <div class = "row">
+    <%= label_tag(:q, title) %>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-12">
+        <%= f.label :symbol %>
+        <%= f.text_field :symbol, placeholder: 'Enter stock symbol ', class: 'form-control' %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row submit">
+    <%= button_tag type: "submit", class: "btn btn-info", name: "commit", value: "Save" do %>
+      <a>Save</a>
+    <% end %>
+    <a class="btn btn-danger hvr-trim" id='add-subscription-cancel-button' data-behaviour="form-dismiss">Cancel</a>
+  </div>
+<% end %>
