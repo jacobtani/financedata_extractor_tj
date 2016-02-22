@@ -32,6 +32,7 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'responders', '~> 2.0'
 gem 'devise'
+gem 'select2-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
