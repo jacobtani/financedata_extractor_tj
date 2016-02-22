@@ -9,8 +9,8 @@ class Item < ActiveRecord::Base
   def self.get_history_data(user)
     @all_historic_data = Array.new
     if user.subscriptions
-      user.subscriptions.each do |stock|
-        @i= Item.select('distinct on (last_price) *').where(symbol: stock.symbol).limit(5)
+      user.subscriptions.each do |subs|
+        @i= Item.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
         @historic_data = @i.sort_by { |i| i[:created_at] }.reverse!
         @all_historic_data.push @historic_data
       end
@@ -22,8 +22,8 @@ class Item < ActiveRecord::Base
   def self.form_url
     initial_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20Name%2C%20LastTradePriceOnly%2C%20Symbol%2C%20LastTradeDate%2C%20LastTradeWithTime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
     if @user.subscriptions
-      @user.subscriptions.each do |h|
-        initial_url = [initial_url, h.symbol].join()
+      @user.subscriptions.each do |user_subs|
+        initial_url = [initial_url, Stock.find(user_subs.stock_id).symbol].join()
         initial_url = [initial_url, '%22%2C%20%22'].join('')
       end
     end
