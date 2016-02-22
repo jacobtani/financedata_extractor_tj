@@ -1,10 +1,9 @@
  class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:retrieve_current_data]
+  before_action :authenticate_user!
 
   def retrieve_current_data
     @quote_data = Item.current_data(current_user.id) rescue nil
     @subscriptions_count = current_user.subscriptions.count
-    flash[:error] = I18n.t("no_current_data") if @quote_data.nil?
   end
 
   def retrieve_historic_data
