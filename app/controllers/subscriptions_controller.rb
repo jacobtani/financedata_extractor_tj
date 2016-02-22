@@ -1,5 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:destroy, :edit, :update]
+  before_action :authenticate_user!
 
   def index
     @subscriptions = current_user.subscriptions rescue nil
@@ -44,6 +45,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def subscription_params
-    params.require(:subscription).permit(:user_id, :symbol)
+    params.require(:subscription).permit(:user_id, :stock_id)
   end
 end
