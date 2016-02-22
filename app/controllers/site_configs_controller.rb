@@ -1,4 +1,5 @@
 class SiteConfigsController < ApplicationController
+  before_action :authenticate_user!
 
   def update
     @site_config = SiteConfig.active

@@ -1,0 +1,5 @@
+//actions to do when submit button of edit subscription form has been clicked
+$("#edit-subscription-link").removeAttr('disabled', 'disabled');
+$("#delete-subscription-link").attr('data-confirm', 'Are you sure you want to delete the subscription ?')
+$("#edit-subscription-form").addClass('hidden');
+$(document).trigger('subscription:form_disabled');

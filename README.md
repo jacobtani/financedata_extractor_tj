@@ -15,7 +15,9 @@
 
 * Run all migrations: `rake db:migrate`
 
-* Configure the application to your needs: stock symbols to process and background task intervals (see below)
+* Seed the database: `rake db:seed`
+
+* Configure the application to your needs: background task intervals (see below)
 
 * Adapt the application to your needs (see below)
 
@@ -43,12 +45,12 @@ There are two background processes (cron jobs) running in the application:
 
 The application can be adapted to your own needs in the following ways: 
 
-Change the stock symbols to display:
-* config/application.rb
-
 Change the background task intervals:
 * config/schedule.rb 
 * After updating the jobs scheduling interval, you will need to run the following command `whenever --update-crontab`
+
+Login to the application
+* Build your subscription to stocks you are interested in and view the relevant data
 
 ### References
 
