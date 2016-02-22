@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222062904) do
+ActiveRecord::Schema.define(version: 20160222104934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,21 @@ ActiveRecord::Schema.define(version: 20160222062904) do
     t.boolean "running_stop"
   end
 
-  create_table "subscriptions", force: :cascade do |t|
-    t.string  "symbol",  null: false
-    t.integer "user_id"
+  create_table "stocks", force: :cascade do |t|
+    t.string   "symbol",     null: false
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
+  add_index "stocks", ["symbol"], name: "index_stocks_on_symbol", unique: true, using: :btree
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "stock_id"
+  end
+
+  add_index "subscriptions", ["stock_id"], name: "index_subscriptions_on_stock_id", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
