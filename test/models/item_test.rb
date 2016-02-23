@@ -12,12 +12,6 @@ require 'test_helper'
 class ItemTest < ActiveSupport::TestCase
 
   describe "Item" do
-		let(:spark)     { stocks(:spark)   } #spark stock
-		
-
-
-
-
 
 
 

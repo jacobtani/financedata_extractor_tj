@@ -19,12 +19,12 @@ class ActiveSupport::TestCase
   include Capybara::DSL
   include Capybara::Assertions
 
-  setup do
+setup do
     SiteConfig.create(
       running_start: false,
       running_stop: true
-    )
-  end
+)
+end
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   #
