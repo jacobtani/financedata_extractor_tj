@@ -37,6 +37,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
         iain.reload.subscriptions.count.must_equal original_subs_count + 1
       end
 
+      it "shouldn't allow a user to add a subscription to one they belong to" do
+        original_subs_count = iain.subscriptions.count
+        post :create, subscription: { stock_id: stocks(:xero_stock).id, user_id: iain.id}, format: :js
+        assert_response :success
+        assert_equal "Already subscribed to this stock", flash[:error]     
+      end
+
       it "should allow a user to edit their subscription" do
         patch :update, id: first_sub, subscription: {stock_id: air_nz.id, user_id: tania.id}, format: :js
         assert_response :success
@@ -49,6 +56,14 @@ class SubscriptionsControllerTest < ActionController::TestCase
         end
         assert_response :redirect
       end
+
+      it "should get all the subscriptions for a user displayed" do
+        get :index
+        assert_response :success
+        assert_not_nil assigns(:subscriptions)
+        @controller.instance_variable_get('@subscriptions').count.must_equal 2
+      end
+
 
     end
 
