@@ -1,5 +1,5 @@
 #Users.yml
-tania: 
+tania:
   first_name: Tania
   surname: Jacob
   email: tanzjacob@gmail.com
@@ -8,4 +8,5 @@ tania:
 iain:
   first_name: Iain
   surname: Walker
+  email: immachumm@gmail.com
   encrypted_password: password

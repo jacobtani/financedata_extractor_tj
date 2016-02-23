@@ -1,7 +1,6 @@
-one_subscription:
-  stock_id: spark
-  user: tania
-
-two_subscription:
-  stock_id: yahoo
-  user: tania
+one:
+  user:     tania
+  stock:    spark_stock
+two:
+  user:     tania
+  stock:    yahoo_stock

@@ -1,7 +1,7 @@
-spark:
+spark_stock:
   name: Spark New Zealand
   symbol: SPK.NZ
 
-yahoo:
-  name: Yahoo Stocks
+yahoo_stock:
+  name: Yahoo
   symbol: YHOO

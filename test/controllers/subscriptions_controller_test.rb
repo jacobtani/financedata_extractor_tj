@@ -5,9 +5,9 @@ class SubscriptionsControllerTest < ActionController::TestCase
   describe "Subscriptions Controller Tests" do
 
     let(:tania) { users(:tania) }
+    let(:yahoo) { stocks(:yahoo_stock) }
     let(:first_sub) { subscriptions(:one_subscription) }
     let(:second_sub) { subscriptions(:two_subscription) }
-    let(:yahoo) { stocks(:yahoo) }
 
     describe "actions by a non logged in user" do 
 
@@ -38,3 +38,5 @@ class SubscriptionsControllerTest < ActionController::TestCase
   end
 
 end
+
+# a user can only see their subscriptions and not another users
