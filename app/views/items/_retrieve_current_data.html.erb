@@ -17,6 +17,11 @@
   </div>
   <!-- if there is data show it -->
   <%if quote_data.present? %>
+    <% myHash = Array.new %>
+    <%user_subscribed_stocks.each do |s| %>
+      <% myHash.push Stock.find(s).symbol %>
+    <%end%>
+
     <table class='table current-data-table'>
       <thead>
         <tr>
@@ -28,30 +33,20 @@
       </thead>
       <tbody>
       <!-- if only one subscription for the user parse the data in a special way -->
-      <% if subscriptions_count == 1 %>
-        <tr class="<%= (quote_data['Name'])[0..5] %>">
-          <td> <%= quote_data['Symbol'] %> </td>
-          <td> <%= quote_data['Name'] %> </td>
-          <td> <%= number_to_currency quote_data['LastTradePriceOnly'] %> </td>
-          <% d = (DateTime.strptime(quote_data['LastTradeDate'], "%m/%d/%Y")) %>
-          <% date= d.strftime('%d/%m/%Y') %>
-          <%time=quote_data['LastTradeWithTime'].split(' -').first %>
-          <td> <%= [date, time].join(' ') %> </td>
-        </tr>
-      <%else %>        
-        <!-- if more than one subscription -->
+       <!-- if more than one subscription -->
         <% quote_data.each do |item| %>
-          <tr class="<%= (item['Name'])[0..5] %>">
-            <td> <%= item["Symbol"] %> </td>
-            <td> <%= item["Name"] %> </td>
-            <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-            <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
-            <% date= d.strftime('%d/%m/%Y') %>
-            <%time=item["LastTradeWithTime"].split(' -').first %>
-            <td> <%= [date, time].join(' ') %> </td>
-          </tr>
+          <%if myHash.include? item['Symbol']%> 
+            <tr class="<%= (item['Name'])[0..5] %>">
+              <td> <%= item["Symbol"] %> </td>
+              <td> <%= item["Name"] %> </td>
+              <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
+              <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
+              <% date= d.strftime('%d/%m/%Y') %>
+              <%time=item["LastTradeWithTime"].split(' -').first %>
+              <td> <%= [date, time].join(' ') %> </td>
+            </tr>
+          <%end%>
         <%end%>
-      <%end%>
       </tbody>
     </table>
   <%else %>

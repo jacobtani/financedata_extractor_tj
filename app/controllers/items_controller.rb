@@ -2,7 +2,8 @@
   before_action :authenticate_user!
 
   def retrieve_current_data
-    @quote_data = Item.current_data(current_user.id) rescue nil
+    @quote_data = Item.current_data rescue nil
+    @user_subscribed_stocks = current_user.subscriptions.pluck(:stock_id)
     @subscriptions_count = current_user.subscriptions.count
   end
 
