@@ -1,1 +1,12 @@
 #SOME TEST YAML
+first_item:
+  name: 'Xero Limited'
+  symbol: 'XRO.NZ'
+  last_price: 6.50
+  last_datetime: <%=DateTime.now - 3.hours %>
+
+second_item:
+  name: 'Auckland Airport'
+  symbol: 'AIA.NZ'
+  last_price: 31.50
+  last_datetime: <%=DateTime.now - 8.hours %>
