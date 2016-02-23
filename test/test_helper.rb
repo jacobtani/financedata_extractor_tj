@@ -5,6 +5,15 @@ require "minitest/autorun"
 require "minitest/spec"
 require "minitest/reporters"
 require "minitest/rails/capybara"
+require 'simplecov' if ENV["COV"]
+
+SimpleCov.start do
+  add_filter 'test/'
+  add_filter 'config/'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Interactors', 'app/interactors'
+end if ENV["COV"]
 
 if ENV['SQL'] then ActiveRecord::Base.logger = Logger.new(STDOUT) if defined? ActiveRecord::Base end
 

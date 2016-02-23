@@ -33,11 +33,7 @@ gem 'wkhtmltopdf-binary'
 gem 'responders', '~> 2.0'
 gem 'devise'
 gem 'select2-rails'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
 group :development do
   gem 'web-console', '~> 2.0'
 end
@@ -46,15 +42,17 @@ end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
   gem 'active_attr'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-nav'
+  gem 'better_errors'
+end
+
+group :test do 
+  gem 'simplecov'
   gem 'minitest-reporters'
   gem 'minitest-spec-rails'
   gem 'minitest-rails-capybara'
-  gem 'better_errors'
 end
