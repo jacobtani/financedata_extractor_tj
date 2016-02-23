@@ -32,10 +32,11 @@ class Item < ActiveRecord::Base
 
   #Handles data if a user has only one subscription
   def self.handle_one_subscription(data)
-    @items = Item.all.where(name: data['Name']).order('created_at DESC').first
+    @items = Item.all.where(symbol: data['Symbol']).order('created_at DESC').first
     @price_float = (data["LastTradePriceOnly"]).to_f #convert price to a float
     @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
     @last_date = (DateTime.strptime(data["LastTradeDate"], "%m/%d/%Y"))
+    binding.pry
     if @items.present? && @items.last_price != @last_price
       @changed[data['Name']] = true 
     else

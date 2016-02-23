@@ -10,3 +10,9 @@ iain:
   surname: Walker
   email: immachumm@gmail.com
   encrypted_password: password
+
+anita:
+  first_name: Anita
+  surname: Jacob
+  email: anita@gmail.com
+  encrypted_password: password
