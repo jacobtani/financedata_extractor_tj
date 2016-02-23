@@ -51,24 +51,23 @@ class Item < ActiveRecord::Base
     result = ItemsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
-    if @user.subscriptions 
-      if @user.subscriptions.count == 1 
-        handle_one_subscription(@quote_data)
-      else # if more than one subscription
-        @quote_data.each do |item|
-          #Check whether item price has changed or not
-          @items = Item.all.where(name: item['Name']).order('created_at DESC').first
-          @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
-          @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
-          @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
-          if @items.present? && @items.last_price != @last_price
-            @changed[item['Name']] = true 
-          else
-            @changed[item['Name']] = false 
-          end
-          # add to db
-          Item.create(name: item['Name'], last_datetime: @last_date, last_price: @last_price, symbol: item['Symbol'])
+    if @user.subscriptions.count == 1 
+      handle_one_subscription(@quote_data)
+    elsif @user.subscriptions.count > 1 # if more than one subscription
+      @quote_data.each do |item|
+        #Check whether item price has changed or not
+        @items = Item.all.where(name: item['Name']).order('created_at DESC').first
+        @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
+        @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
+        @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
+        #determine if items price has changed or not  
+        if @items.present? && @items.last_price != @last_price
+          @changed[item['Name']] = true 
+        else
+          @changed[item['Name']] = false 
         end
+        # add to db
+        Item.create(name: item['Name'], last_datetime: @last_date, last_price: @last_price, symbol: item['Symbol'])
       end
     end
     #send quote data and changed data status to client using message bus
