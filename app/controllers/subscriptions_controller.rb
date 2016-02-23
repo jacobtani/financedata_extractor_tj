@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:destroy, :edit, :update]
-  before_action :authenticate_user!
+ # before_action :authenticate_user!
 
   def index
     @subscriptions = current_user.subscriptions rescue nil
