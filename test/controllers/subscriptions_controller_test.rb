@@ -6,15 +6,16 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
     let(:tania) { users(:tania) }
     let(:iain) { users(:iain) }
-    let(:yahoo) { stocks(:yahoo_stock) }
+    let(:auckland) { stocks(:auckland_stock) }
     let(:air_nz) { stocks(:airnz_stock) }
     let(:first_sub) { subscriptions(:one) }
     let(:second_sub) { subscriptions(:two) }
+    let(:third_sub) { subscriptions(:three) }
 
     describe "actions by a non logged in user" do
 
       it "raises an unauthorised error when trying to add a subscription" do
-        post :create, subscription: { stock_id: yahoo.id, user_id: nil }, format: :js
+        post :create, subscription: { stock_id: auckland.id, user_id: nil }, format: :js
         assert_response 401
         @controller.instance_variable_get('@subscription').must_equal nil
       end
@@ -37,7 +38,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
       end
 
       it "should allow a user to edit their subscription" do
-        patch :update, id: first_sub, subscription: {stock_id: air_nz.id,}, format: :js
+        patch :update, id: first_sub, subscription: {stock_id: air_nz.id, user_id: tania.id}, format: :js
         assert_response :success
         first_sub.reload.stock_id.must_equal air_nz.id
       end
@@ -53,8 +54,20 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
     describe "A user can only manage their own subscriptions" do
 
-      it "only allows a user to delete their own subscription" do
+      before do 
+        sign_in tania
+      end
 
+      it "shouldn't allow another user to update another user's subscription" do
+        assert_raises(ActiveRecord::RecordNotFound) do
+          patch :update, id: third_sub, subscription: {stock_id: air_nz.id, user_id: iain.id}, format: :js
+        end
+      end
+
+      it "only allows a user to delete their own subscription" do
+        assert_raises(ActiveRecord::RecordNotFound) do
+          delete :destroy, id: third_sub
+        end
       end
 
 
@@ -63,4 +76,3 @@ class SubscriptionsControllerTest < ActionController::TestCase
   end
 
 end
-

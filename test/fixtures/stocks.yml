@@ -1,11 +1,11 @@
-spark_stock:
-  name: Spark New Zealand
-  symbol: SPK.NZ
+xero_stock:
+  name: Xero Ltd
+  symbol: XRO.NZ
 
-yahoo_stock:
-  name: Yahoo
-  symbol: YHOO
+auckland_stock:
+  name: Auckland Airpot
+  symbol: AIA.NZ
 
 airnz_stock:
   name: Air New Zealand
-  symbol: AIRNZ
+  symbol: AIR.NZ

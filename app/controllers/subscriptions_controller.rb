@@ -16,8 +16,15 @@ class SubscriptionsController < ApplicationController
       if @subscription.save
         format.js { redirect_turbo subscriptions_path }
       else
+        format.js {}
         flash[:error] = "Already subscribed to this stock"
       end
+    end
+  end
+
+  def edit
+    if @subscription.user != current_user then
+      raise ActiveRecord::RecordNotFound
     end
   end
 
@@ -33,14 +40,14 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @subscription.destroy
+    @subscription.destroy if @subscription
     redirect_to subscriptions_path
   end
 
   private
 
   def set_subscription
-    @subscription = current_user.subscriptions.find params[:id] rescue nil
+    @subscription = current_user.subscriptions.find params[:id] 
     return not_found! unless @subscription
   end
 

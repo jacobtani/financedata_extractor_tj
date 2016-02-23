@@ -1,6 +1,9 @@
 one:
   user:     tania
-  stock:    spark_stock
+  stock:    xero_stock
 two:
   user:     tania
-  stock:    yahoo_stock
+  stock:    auckland_stock
+three:
+  user:     iain
+  stock:    xero_stock

@@ -5,7 +5,6 @@ require "minitest/autorun"
 require "minitest/spec"
 require "minitest/reporters"
 require "minitest/rails/capybara"
-require 'test_helpers/custom_matchers.rb'
 
 if ENV['SQL'] then ActiveRecord::Base.logger = Logger.new(STDOUT) if defined? ActiveRecord::Base end
 
