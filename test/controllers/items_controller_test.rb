@@ -42,17 +42,29 @@ class ItemsControllerTest < ActionController::TestCase
         sign_in tania
       end
 
-      it "allows current data to be retrieved" do 
+      it "allows current data to be retrieved" do
         xhr :get, :retrieve_current_data
         assert_response 200
         assert_not_nil assigns(:quote_data)
         @subscriptions_count = @controller.instance_variable_get('@subscriptions_count')
         @quote_data = @controller.instance_variable_get('@quote_data')
-        assert_not_nil assigns(:quote_data)
         assert_not_nil assigns(:subscriptions_count)
         tania.subscriptions.count.must_equal @subscriptions_count
       end
 
+
+      it "allows current data to be retrieved and detect change" do
+        subscription_stock_id = Stock.find(tania.subscriptions.second.stock_id).symbol
+        item = Item.all.where(symbol: subscription_stock_id).order('created_at DESC').first
+        item.update_attribute(:last_price, 15.25)
+        xhr :get, :retrieve_current_data
+        assert_response 200
+        assert_not_nil assigns(:quote_data)
+        @subscriptions_count = @controller.instance_variable_get('@subscriptions_count')
+        @quote_data = @controller.instance_variable_get('@quote_data')
+        assert_not_nil assigns(:subscriptions_count)
+        tania.subscriptions.count.must_equal @subscriptions_count
+      end
 
       it "allows historic data to be retrieved" do 
         Item.create(name: air_nz.name, symbol: air_nz.symbol, last_price: 11.20, last_datetime: DateTime.now - 5.hours)

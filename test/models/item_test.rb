@@ -12,6 +12,7 @@ class ItemTest < ActiveSupport::TestCase
       it "should have a date, price, item name and symbol" do 
         item_one.valid?.must_equal true
       end
+
     end
 
   end

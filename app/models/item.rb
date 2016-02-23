@@ -36,7 +36,6 @@ class Item < ActiveRecord::Base
     @price_float = (data["LastTradePriceOnly"]).to_f #convert price to a float
     @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
     @last_date = (DateTime.strptime(data["LastTradeDate"], "%m/%d/%Y"))
-    binding.pry
     if @items.present? && @items.last_price != @last_price
       @changed[data['Name']] = true 
     else
@@ -52,16 +51,15 @@ class Item < ActiveRecord::Base
     result = ItemsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
-    if @user.subscriptions.count == 1 
+    if @user.subscriptions.count == 1 #handler for if just one subscription
       handle_one_subscription(@quote_data)
-    elsif @user.subscriptions.count > 1 # if more than one subscription
+    elsif @user.subscriptions.count > 1 # if more than one subscription for a user handles the data
       @quote_data.each do |item|
         #Check whether item price has changed or not
-        @items = Item.all.where(name: item['Name']).order('created_at DESC').first
+        @items = Item.all.where(symbol: item['Symbol']).order('created_at DESC').first
         @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
         @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
         @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
-        #determine if items price has changed or not  
         if @items.present? && @items.last_price != @last_price
           @changed[item['Name']] = true 
         else
@@ -77,7 +75,7 @@ class Item < ActiveRecord::Base
   end
 
   #Generate the pdf of the current stock data
-  def self.generate_pdf()
+  def self.generate_pdf
     av = ActionView::Base.new()
     av.view_paths = ActionController::Base.view_paths
     av.class_eval do

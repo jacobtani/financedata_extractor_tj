@@ -22,12 +22,6 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def edit
-    if @subscription.user != current_user then
-      raise ActiveRecord::RecordNotFound
-    end
-  end
-
   def update
     respond_to do |format|
       if @subscription.update_attributes subscription_params
