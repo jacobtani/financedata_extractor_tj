@@ -1,0 +1,12 @@
+#Users.yml
+tania:
+  first_name: Tania
+  surname: Jacob
+  email: tanzjacob@gmail.com
+  encrypted_password: password123
+
+iain:
+  first_name: Iain
+  surname: Walker
+  email: immachumm@gmail.com
+  encrypted_password: password

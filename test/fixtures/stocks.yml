@@ -1,0 +1,11 @@
+xero_stock:
+  name: Xero Ltd
+  symbol: XRO.NZ
+
+auckland_stock:
+  name: Auckland Airpot
+  symbol: AIA.NZ
+
+airnz_stock:
+  name: Air New Zealand
+  symbol: AIR.NZ

@@ -8,7 +8,6 @@
 
   def retrieve_historic_data
     @all_historic_data = Item.get_history_data(current_user) rescue nil
-    flash[:error] = I18n.t("no_historic_data") unless @all_historic_data
   end
 
  def start_capture

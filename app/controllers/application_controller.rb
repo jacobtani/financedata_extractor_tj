@@ -7,4 +7,8 @@ class ApplicationController < ActionController::Base
     render js: "Turbolinks.visit('#{path}')"
   end
 
+  def not_found!
+    flash[:error] = 'Could not find item'
+  end
+
 end
