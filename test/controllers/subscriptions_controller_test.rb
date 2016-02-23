@@ -21,7 +21,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
     describe "Actions by a logged in user" do 
 
       before do 
-        login_as tania
+        sign_in tania
       end
 
       it "should allow a user to add a subscription" do 
