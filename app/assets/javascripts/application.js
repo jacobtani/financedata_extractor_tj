@@ -21,6 +21,7 @@
 //= require custom-message-bus
 //= require_tree .
 
+//helper method to work with stocks.js methods
 function split(str, separator, limit) {
     str = str.split(separator);
     if(str.length <= limit) return str;

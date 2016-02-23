@@ -21,7 +21,6 @@ show_ajax_message = function(message, type) {
 
 $(document).ajaxComplete(function(event, request) {
   var message, type;
-  console.log('Hi');
   message = request.getResponseHeader("X-Message");
   type = request.getResponseHeader("X-Message-Type");
   show_ajax_message(message, type);
