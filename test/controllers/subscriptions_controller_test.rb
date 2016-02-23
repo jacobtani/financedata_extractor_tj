@@ -5,38 +5,62 @@ class SubscriptionsControllerTest < ActionController::TestCase
   describe "Subscriptions Controller Tests" do
 
     let(:tania) { users(:tania) }
+    let(:iain) { users(:iain) }
     let(:yahoo) { stocks(:yahoo_stock) }
-    let(:first_sub) { subscriptions(:one_subscription) }
-    let(:second_sub) { subscriptions(:two_subscription) }
+    let(:air_nz) { stocks(:airnz_stock) }
+    let(:first_sub) { subscriptions(:one) }
+    let(:second_sub) { subscriptions(:two) }
 
-    describe "actions by a non logged in user" do 
+    describe "actions by a non logged in user" do
 
-      it "raises an exception when a non logged in user tries to add a subscription" do 
-        assert_raises(NoMethodError) {post :create, subscription: { stock_id: yahoo.id, user_id: nil }, format: :js }
+      it "raises an unauthorised error when trying to add a subscription" do
+        post :create, subscription: { stock_id: yahoo.id, user_id: nil }, format: :js
+        assert_response 401
         @controller.instance_variable_get('@subscription').must_equal nil
       end
-    
+
     end
 
-    describe "Actions by a logged in user" do 
+    describe "Actions by a logged in user" do
 
       before do 
         sign_in tania
       end
 
-      it "should allow a user to add a subscription" do 
+      it "should allow a user to add a subscription" do
+        original_subs_count = iain.subscriptions.count
+        post :create, subscription: { stock_id: air_nz.id, user_id: iain.id}, format: :js
+        assert_response :success
+        @controller.instance_variable_get('@subscription').stock_id.must_equal air_nz.id
+        iain.subscriptions << @controller.instance_variable_get('@subscription')
+        iain.reload.subscriptions.count.must_equal original_subs_count + 1
       end
 
-      it "should allow a user to edit their subscription" do 
+      it "should allow a user to edit their subscription" do
+        patch :update, id: first_sub, subscription: {stock_id: air_nz.id,}, format: :js
+        assert_response :success
+        first_sub.reload.stock_id.must_equal air_nz.id
       end
 
-      it "should allow a user to delete a stock from their subscriptions" do 
+      it "should allow a user to delete a stock from their subscriptions" do
+        assert_difference ->{ tania.subscriptions.count }, -1 do
+          delete :destroy, id: second_sub
+        end
+        assert_response :redirect
       end
 
-   end
+    end
+
+    describe "A user can only manage their own subscriptions" do
+
+      it "only allows a user to delete their own subscription" do
+
+      end
+
+
+    end
 
   end
 
 end
 
-# a user can only see their subscriptions and not another users

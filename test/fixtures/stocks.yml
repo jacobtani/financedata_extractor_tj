@@ -5,3 +5,7 @@ spark_stock:
 yahoo_stock:
   name: Yahoo
   symbol: YHOO
+
+airnz_stock:
+  name: Air New Zealand
+  symbol: AIRNZ
