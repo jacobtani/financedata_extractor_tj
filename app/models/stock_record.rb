@@ -54,7 +54,6 @@ belongs_to :stock
       if @recent_stock_records.present? && @recent_stock_records.last_price != @last_price
         stock_record[:ChangedValue] = true
       else
-        binding.pry
         stock_record[:ChangedValue] = false
       end      
       # add to db

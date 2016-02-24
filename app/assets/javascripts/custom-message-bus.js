@@ -44,7 +44,7 @@ checkNewStockData = function() {
       //Update data in current table
       $('.' + symbol).children('td').eq(2).text('$' + price);
       $('.' + symbol).children('td').eq(3).text(stock_formatted_date + " " + (stock_record.LastTradeWithTime).split(' -')[0]);
-      
+
       //Determine if data has changed state or not and add highlighting if necessary    
       if (stock_record.ChangedValue.toString() == 'true') {
         $('.' + symbol).addClass('highlight')
