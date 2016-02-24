@@ -37,14 +37,14 @@
       </thead>
       <tbody>
       <% quote_data.each do |stock_record| %>
-        <%if interested_array.include? stock_record['Symbol']%> <!-- only if user subscribed show the contents-->
-          <tr class="<%= (stock_record['Name'])[0..5] %>">
-            <td> <%= stock_record["Symbol"] %> </td>
-            <td> <%= stock_record["Name"] %> </td>
-            <td> <%= number_to_currency stock_record["LastTradePriceOnly"] %> </td>
-            <% d = (DateTime.strptime(stock_record["LastTradeDate"], "%m/%d/%Y")) %>
+        <%if interested_array.include? stock_record[:Symbol]%> <!-- only if user subscribed show the contents-->
+          <tr class="<%= stock_record[:Symbol] %>">
+            <td> <%= stock_record[:Symbol] %> </td>
+            <td> <%= stock_record[:Name] %> </td>
+            <td> <%= number_to_currency stock_record[:LastTradePriceOnly] %> </td>
+            <% d = (DateTime.strptime(stock_record[:LastTradeDate], "%m/%d/%Y")) %>
             <% date= d.strftime('%d/%m/%Y') %>
-            <%time=stock_record["LastTradeWithTime"].split(' -').first %>
+            <%time=stock_record[:LastTradeWithTime].split(' -').first %>
             <td> <%= [date, time].join(' ') %> </td> <!--display time and date together -->
           </tr>
         <%end%>

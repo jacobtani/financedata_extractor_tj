@@ -29,29 +29,28 @@ checkNewStockData = function() {
     
     //data retrieved from message bus
     var quoteData = data.quote_data;
-    var changedData = data.changed_data
     
-
     //go through each row of data to update the table
     for(var i=0;i<quoteData.length; i++) {
+
       var stock_record = quoteData[i];
-      var name_substring = stock_record.Name.substring(0,5);
+      var symbol = stock_record.Symbol;
       var price = (parseFloat(stock_record.LastTradePriceOnly)).toFixed(2)
-      
+
       //Configure format of date 
       var currentDate = new Date(stock_record.LastTradeDate);
-      var date_ready = formatDate(currentDate);
+      var stock_formatted_date = formatDate(currentDate);
 
       //Update data in current table
-      $('.' + name_substring).children('td').eq(2).text('$' + price);
-      $('.' + name_substring).children('td').eq(3).text(date_ready + " " + (stock_record.LastTradeWithTime).split(' -')[0]);
+      $('.' + symbol).children('td').eq(2).text('$' + price);
+      $('.' + symbol).children('td').eq(3).text(stock_formatted_date + " " + (stock_record.LastTradeWithTime).split(' -')[0]);
       
       //Determine if data has changed state or not and add highlighting if necessary    
-      if (changedData[stock_record.Name].toString() == 'true') {
-        $('.' + name_substring).addClass('highlight')
+      if (stock_record.ChangedValue.toString() == 'true') {
+        $('.' + symbol).addClass('highlight')
       }
       else {
-       	$('.' + name_substring).removeClass('highlight')
+       	$('.' + symbol).removeClass('highlight')
       }
     }
 

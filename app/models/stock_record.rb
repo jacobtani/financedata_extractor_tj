@@ -31,27 +31,54 @@ class StockRecord < ActiveRecord::Base
 
   #Get the current stock data
   def self.get_current_data
+    @number_of_unique_subscriptions = Subscription.select(:stock_id).distinct.pluck(:stock_id)
     result = StockRecordsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
-    @quote_data.each do |stock_record|
-      #Check whether stock price has changed or not
-      @recent_stock_records = StockRecord.all.where(symbol: stock_record['Symbol']).order('created_at DESC').first
-      @price_float = (stock_record["LastTradePriceOnly"]).to_f #convert price to a float
-      @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
-      @last_date = (DateTime.strptime(stock_record["LastTradeDate"], "%m/%d/%Y"))
-      
-      if @recent_stock_records.present? && @recent_stock_records.last_price != @last_price
-        @changed[stock_record['Name']] = true 
-      else
-        @changed[stock_record['Name']] = false 
-      end
-      # add to db
-      StockRecord.create(name: stock_record['Name'], last_datetime: @last_date, last_price: @last_price, symbol: stock_record['Symbol'])
+    #build parsable array of hashes
+    if @number_of_unique_subscriptions.length == 1 
+      @quote_data_new = handle_one_subscription(@quote_data)
+    elsif @number_of_unique_subscriptions.length > 1 
+      @quote_data_new = handle_many_subscriptions(@quote_data)
     end
+    @quote_data_new.each do |stock_record|
+      #Check whether stock price has changed or not
+      @recent_stock_records = StockRecord.all.where(symbol: stock_record[:Symbol]).order('created_at DESC').first
+      @price_float = (stock_record[:LastTradePriceOnly]).to_f #convert price to a float
+      @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
+      @last_date = (DateTime.strptime(stock_record[:LastTradeDate], "%m/%d/%Y"))
+      
+      #check if stock prices have changed
+      if @recent_stock_records.present? && @recent_stock_records.last_price != @last_price
+        stock_record[:ChangedValue] = true
+      else
+        stock_record[:ChangedValue] = false
+      end      
+      # add to db
+      StockRecord.create(name: stock_record[:Name], last_datetime: @last_date, last_price: @last_price, symbol: stock_record[:Symbol])
+    end
+
     #send quote data and changed data status to client using message bus
-    MessageBus.publish('/new_quote_data', quote_data: @quote_data, changed_data: @changed)
-    @quote_data
+    MessageBus.publish('/new_quote_data', quote_data: @quote_data_new)
+    @quote_data_new
+  end
+
+  #Build a parsable array of hashes when there is one subscription
+  def self.handle_one_subscription(data)
+    @quote_data_new = Array.new
+    hash = {:Symbol => data['Symbol'], :Name => data['Name'], :LastTradeDate => data['LastTradeDate'], :LastTradePriceOnly => data['LastTradePriceOnly'], :LastTradeWithTime => data['LastTradeWithTime']}
+    @quote_data_new.push hash
+    @quote_data_new
+  end
+
+  #Build a parsable array of hashes when there is more than one subscription
+  def self.handle_many_subscriptions(data)
+    @quote_data_new = Array.new
+    data.each do |d|
+      hash = {:Symbol => d['Symbol'], :Name => d['Name'], :LastTradeDate => d['LastTradeDate'], :LastTradePriceOnly => d['LastTradePriceOnly'], :LastTradeWithTime => d['LastTradeWithTime']}
+      @quote_data_new.push hash
+    end
+    @quote_data_new
   end
 
   #Generate the pdf of the current stock data
