@@ -2,8 +2,8 @@
   before_action :authenticate_user!
 
   def retrieve_current_data
-    @quote_data = Item.current_data(current_user.id) rescue nil
-    @subscriptions_count = current_user.subscriptions.count
+    @quote_data = Item.current_data rescue nil
+    @interested_stocks = Item.retrieve_user_stocks_interested(current_user)
   end
 
   def retrieve_historic_data
