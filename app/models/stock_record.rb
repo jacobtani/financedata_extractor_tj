@@ -31,11 +31,11 @@ class StockRecord < ActiveRecord::Base
 
   #Get the current stock data
   def self.current_data
-    result = ItemsInteractor.call
+    result = StockRecordsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
     @quote_data.each do |stock_record|
-      #Check whether item price has changed or not
+      #Check whether stock price has changed or not
       @recent_stock_records = StockRecord.all.where(symbol: stock_record['Symbol']).order('created_at DESC').first
       @price_float = (stock_record["LastTradePriceOnly"]).to_f #convert price to a float
       @last_price = (@price_float *100).round / 100.0 #round the price to 2dp

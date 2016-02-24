@@ -1,4 +1,4 @@
-class ItemsInteractor
+class StockRecordsInteractor
   include Interactor
 
   def call

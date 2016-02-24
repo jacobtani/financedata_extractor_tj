@@ -9,7 +9,7 @@ class StockRecordTest < ActiveSupport::TestCase
 
     describe "Valid stock records" do 
 
-      it "should have a date, price, item name and symbol" do 
+      it "should have a date, price, name and symbol" do 
         stock_record_one.valid?.must_equal true
       end
 
