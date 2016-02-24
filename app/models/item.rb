@@ -57,35 +57,42 @@ class Item < ActiveRecord::Base
 
   #Generate the pdf of the current stock data
   def self.generate_pdf
-    av = ActionView::Base.new()
-    av.view_paths = ActionController::Base.view_paths
-    av.class_eval do
-      include Rails.application.routes.url_helpers
-      include ApplicationHelper
-    end
-    pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data}
-    # use wicked_pdf gem to create PDF from the doc HTML
-    doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
-    #assemble filename
-    filename = "Current-Stock-Prices-" + (DateTime.now.to_s)
-    filename.gsub!(/ /,'-')
-    begin 
-      file = Tempfile.new([filename, '.pdf']) 
-      file.binmode
-      file.write doc_pdf
-      #make the directory to write the file to
-      FileUtils::mkdir_p Dir.home + '/stock_pdfs'
-      #set file path to user's home directory within the stock_pdfs folder
-      path = Dir.home + "/stock_pdfs/" + filename + '.pdf'
-      #download file contents to the path specified
-      open(path, 'wb') do |f|
-        f << doc_pdf
+    @users = User.all
+    @users.each do |user|
+      av = ActionView::Base.new()
+      av.view_paths = ActionController::Base.view_paths
+      av.class_eval do
+        include Rails.application.routes.url_helpers
+        include ApplicationHelper
       end
-      file.close
-      #in case IO exception occurs whilst dealing with file
-    rescue IOError => e
-      puts e.message
-    end
+      pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data, :interested_stocks => Item.retrieve_user_stocks_interested(@user)}
+      # use wicked_pdf gem to create PDF from the doc HTML
+      doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
+      #assemble filename
+      filename = "Current-Stock-Prices-" + (DateTime.now.to_s)
+      filename.gsub!(/ /,'-')
+      begin 
+        file = Tempfile.new([filename, '.pdf']) 
+        file.binmode
+        file.write doc_pdf
+        #make the directory to write the file to
+        FileUtils::mkdir_p Dir.home + '/stock_pdfs'
+        #set file path to user's home directory within the stock_pdfs folder
+        path = Dir.home + "/stock_pdfs/" + filename + '.pdf'
+        #download file contents to the path specified
+        open(path, 'wb') do |f|
+          f << doc_pdf
+        end
+        file.close
+        #in case IO exception occurs whilst dealing with file
+      rescue IOError => e
+        puts e.message
+      end
+    end   
+  end
+
+  def retrieve_user_stocks_interested(user)
+    @subscriptions = user.subscriptions.pluck(:stock_id)  
   end
 
 end

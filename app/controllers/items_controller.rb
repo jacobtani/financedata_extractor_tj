@@ -3,7 +3,7 @@
 
   def retrieve_current_data
     @quote_data = Item.current_data rescue nil
-    @user_subscribed_stocks = current_user.subscriptions.pluck(:stock_id)
+    @interested_stocks = Item.retrieve_user_stocks_interested(current_user)
     @subscriptions_count = current_user.subscriptions.count
   end
 

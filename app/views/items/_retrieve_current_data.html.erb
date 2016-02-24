@@ -18,10 +18,9 @@
   <!-- if there is data show it -->
   <%if quote_data.present? %>
     <% myHash = Array.new %>
-    <%user_subscribed_stocks.each do |s| %>
-      <% myHash.push Stock.find(s).symbol %>
+    <%@interested_stocks.each do |s| %>
+        <% myHash.push Stock.find(s).symbol %>
     <%end%>
-
     <table class='table current-data-table'>
       <thead>
         <tr>
