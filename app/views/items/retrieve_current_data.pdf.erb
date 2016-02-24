@@ -1,2 +1,2 @@
 <%= wicked_pdf_stylesheet_link_tag "pdf.scss" %> 
-<%= render partial: 'items/retrieve_current_data.html.erb', locals: { quote_data: Item.current_data, interested_stocks: nil }%>
+<%= render partial: 'stock_records/retrieve_current_data.html.erb', locals: { quote_data: StockRecord.current_data, interested_stocks: nil }%>

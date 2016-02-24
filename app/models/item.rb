@@ -3,15 +3,15 @@ require 'open-uri'
 require 'tempfile'
 require 'fileutils'
 
-class Item < ActiveRecord::Base
+class StockRecord < ActiveRecord::Base
 
   #Get historic data for each stock and build them into one big list
   def self.get_history_data(user)
     @all_historic_data = Array.new
     if user.subscriptions
       user.subscriptions.each do |subs|
-        @i= Item.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
-        @historic_data = @i.sort_by { |i| i[:created_at] }.reverse!
+        @stock_record= StockRecord.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
+        @historic_data = @stock_record.sort_by { |stock_record| stock_record[:created_at] }.reverse!
         @all_historic_data.push @historic_data
       end
     end
@@ -23,7 +23,6 @@ class Item < ActiveRecord::Base
     initial_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20Name%2C%20LastTradePriceOnly%2C%20Symbol%2C%20LastTradeDate%2C%20LastTradeWithTime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
     interested_stocks_ids = Subscription.select(:stock_id).distinct.pluck(:stock_id)
     interested_stocks_ids.each do |s|
-        sub_object = Stock.find(s)
         initial_url = [initial_url, Stock.find(s).symbol].join()
         initial_url = [initial_url, '%22%2C%20%22'].join('')
     end
@@ -35,20 +34,20 @@ class Item < ActiveRecord::Base
     result = ItemsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
-    @quote_data.each do |item|
+    @quote_data.each do |stock_record|
       #Check whether item price has changed or not
-      @items = Item.all.where(symbol: item['Symbol']).order('created_at DESC').first
-      @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
+      @recent_stock_records = StockRecord.all.where(symbol: stock_record['Symbol']).order('created_at DESC').first
+      @price_float = (stock_record["LastTradePriceOnly"]).to_f #convert price to a float
       @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
-      @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
+      @last_date = (DateTime.strptime(stock_record["LastTradeDate"], "%m/%d/%Y"))
       
-      if @items.present? && @items.last_price != @last_price
-        @changed[item['Name']] = true 
+      if @recent_stock_records.present? && @recent_stock_records.last_price != @last_price
+        @changed[stock_record['Name']] = true 
       else
-        @changed[item['Name']] = false 
+        @changed[stock_record['Name']] = false 
       end
       # add to db
-      Item.create(name: item['Name'], last_datetime: @last_date, last_price: @last_price, symbol: item['Symbol'])
+      StockRecord.create(name: stock_record['Name'], last_datetime: @last_date, last_price: @last_price, symbol: stock_record['Symbol'])
     end
     #send quote data and changed data status to client using message bus
     MessageBus.publish('/new_quote_data', quote_data: @quote_data, changed_data: @changed)
@@ -65,7 +64,7 @@ class Item < ActiveRecord::Base
         include Rails.application.routes.url_helpers
         include ApplicationHelper
       end
-      pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data, :interested_stocks => Item.retrieve_user_stocks_interested(user)}
+      pdf_html = av.render :template => "stock_records/retrieve_current_data.pdf.erb",:locals => {:quote_data => StockRecord.current_data, :interested_stocks => StockRecord.retrieve_user_stocks_interested(user)}
       # use wicked_pdf gem to create PDF from the doc HTML
       doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
       #assemble filename

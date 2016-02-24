@@ -11,23 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222104934) do
+ActiveRecord::Schema.define(version: 20160224053924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "items", force: :cascade do |t|
+  create_table "site_configs", force: :cascade do |t|
+    t.boolean "running_start"
+    t.boolean "running_stop"
+  end
+
+  create_table "stock_records", force: :cascade do |t|
     t.string   "name"
     t.string   "symbol"
     t.float    "last_price"
     t.datetime "last_datetime"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-  end
-
-  create_table "site_configs", force: :cascade do |t|
-    t.boolean "running_start"
-    t.boolean "running_stop"
   end
 
   create_table "stocks", force: :cascade do |t|

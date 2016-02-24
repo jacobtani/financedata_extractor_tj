@@ -2,7 +2,7 @@ class ItemsInteractor
   include Interactor
 
   def call
-    url = URI.parse(Item.form_url)
+    url = URI.parse(StockRecord.form_url)
     begin
       data = Net::HTTP.get_response(url).body #retrieve data from url
     rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e

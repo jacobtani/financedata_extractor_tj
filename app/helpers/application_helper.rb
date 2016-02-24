@@ -1,4 +1,6 @@
 module ApplicationHelper
+
+ #flash helper method
  def flash_class(level)
    case level.to_sym
     when :notice then "warning-alert"

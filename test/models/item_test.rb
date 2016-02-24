@@ -1,16 +1,16 @@
 require 'test_helper'
 
-class ItemTest < ActiveSupport::TestCase
+class StockRecordTest < ActiveSupport::TestCase
 
-  describe "Item Model Tests" do
+  describe "StockRecord Model Tests" do
 
-    let(:item_one)     { items(:first_item)   } 
+    let(:stock_record_one)     { stock_records(:first_stock_record)   } 
     let(:iain)         { users(:iain) } 
 
-    describe "Valid items" do 
+    describe "Valid stock records" do 
 
       it "should have a date, price, item name and symbol" do 
-        item_one.valid?.must_equal true
+        stock_record_one.valid?.must_equal true
       end
 
     end

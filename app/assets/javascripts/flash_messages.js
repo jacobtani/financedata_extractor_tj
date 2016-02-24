@@ -1,5 +1,6 @@
-var flashCallback, show_ajax_message;
+var flash_callback, show_ajax_message;
 
+//determine which class of flash message to utilise
 show_ajax_message = function(message, type) {
   if (message && (type === "error" || type === "success" || type === "notice" || type === "warning")) {
     $("#flash-message").html("<div class='flash alert col-sm-6 col-sm-offset-3 fade in'>" + message + "</div>");
@@ -19,14 +20,15 @@ show_ajax_message = function(message, type) {
   }
 };
 
+//show flashes and make them timeout
 $(document).ajaxComplete(function(event, request) {
   var message, type;
   message = request.getResponseHeader("X-Message");
   type = request.getResponseHeader("X-Message-Type");
   show_ajax_message(message, type);
-  return setTimeout(flashCallback, 4500);
+  return setTimeout(flash_callback, 4500);
 });
 
-flashCallback = function() {
+flash_callback = function() {
   return $(".flash").fadeOut(1200);
 };
