@@ -2,12 +2,12 @@
   before_action :authenticate_user!
 
   def retrieve_current_data
-    @quote_data = StockRecord.current_data rescue nil
+    @quote_data = StockRecord.get_current_data rescue nil
     @interested_stocks = StockRecord.retrieve_user_stocks_interested(current_user)
   end
 
   def retrieve_historic_data
-    @all_historic_data = StockRecord.get_history_data(current_user) rescue nil
+    @all_historic_data = StockRecord.get_historical_data(current_user) rescue nil
   end
 
  def start_capture

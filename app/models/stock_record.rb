@@ -6,7 +6,7 @@ require 'fileutils'
 class StockRecord < ActiveRecord::Base
 
   #Get historic data for each stock and build them into one big list
-  def self.get_history_data(user)
+  def self.get_historical_data(user)
     @all_historic_data = Array.new
     if user.subscriptions
       user.subscriptions.each do |subs|
@@ -30,7 +30,7 @@ class StockRecord < ActiveRecord::Base
   end
 
   #Get the current stock data
-  def self.current_data
+  def self.get_current_data
     result = StockRecordsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
@@ -64,7 +64,7 @@ class StockRecord < ActiveRecord::Base
         include Rails.application.routes.url_helpers
         include ApplicationHelper
       end
-      pdf_html = av.render :template => "stock_records/retrieve_current_data.pdf.erb",:locals => {:quote_data => StockRecord.current_data, :interested_stocks => StockRecord.retrieve_user_stocks_interested(user)}
+      pdf_html = av.render :template => "stock_records/retrieve_current_data.pdf.erb",:locals => {:quote_data => StockRecord.get_current_data, :interested_stocks => StockRecord.retrieve_user_stocks_interested(user)}
       # use wicked_pdf gem to create PDF from the doc HTML
       doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
       #assemble filename
