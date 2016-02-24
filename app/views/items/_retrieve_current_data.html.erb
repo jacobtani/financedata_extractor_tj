@@ -17,10 +17,15 @@
   </div>
   <!-- if there is data show it -->
   <%if quote_data.present? %>
+    <!-- determine which quotes to show -->
     <% myHash = Array.new %>
-    <%@interested_stocks.each do |s| %>
-        <% myHash.push Stock.find(s).symbol %>
+    <%if @interested_stocks.nil? %>
+      <% @interested_stocks = Subscription.select(:stock_id).distinct.pluck(:stock_id) %>
     <%end%>
+    <%@interested_stocks.each do |s| %>
+      <% myHash.push Stock.find(s).symbol %>
+    <%end%>
+
     <table class='table current-data-table'>
       <thead>
         <tr>
@@ -31,21 +36,19 @@
         </tr>
       </thead>
       <tbody>
-      <!-- if only one subscription for the user parse the data in a special way -->
-       <!-- if more than one subscription -->
-        <% quote_data.each do |item| %>
-          <%if myHash.include? item['Symbol']%> 
-            <tr class="<%= (item['Name'])[0..5] %>">
-              <td> <%= item["Symbol"] %> </td>
-              <td> <%= item["Name"] %> </td>
-              <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
-              <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
-              <% date= d.strftime('%d/%m/%Y') %>
-              <%time=item["LastTradeWithTime"].split(' -').first %>
-              <td> <%= [date, time].join(' ') %> </td>
-            </tr>
-          <%end%>
+      <% quote_data.each do |item| %>
+        <%if myHash.include? item['Symbol']%> <!-- only if user subscribed show the contents-->
+          <tr class="<%= (item['Name'])[0..5] %>">
+            <td> <%= item["Symbol"] %> </td>
+            <td> <%= item["Name"] %> </td>
+            <td> <%= number_to_currency item["LastTradePriceOnly"] %> </td>
+            <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
+            <% date= d.strftime('%d/%m/%Y') %>
+            <%time=item["LastTradeWithTime"].split(' -').first %>
+            <td> <%= [date, time].join(' ') %> </td>
+          </tr>
         <%end%>
+      <%end%>
       </tbody>
     </table>
   <%else %>
