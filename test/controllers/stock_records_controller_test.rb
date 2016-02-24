@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class ItemsControllerTest < ActionController::TestCase
+class StockRecordsControllerTest < ActionController::TestCase
 
-  describe "Items Controller Tests" do
+  describe "Stock Records Controller Tests" do
  
     let(:tania) { users(:tania) }
     let(:anita) { users(:anita) }
@@ -52,8 +52,8 @@ class ItemsControllerTest < ActionController::TestCase
 
       it "allows current data to be retrieved and detect change" do
         subscription_stock_id = Stock.find(tania.subscriptions.second.stock_id).symbol
-        item = Item.all.where(symbol: subscription_stock_id).order('created_at DESC').first
-        item.update_attribute(:last_price, 15.25)
+        stock_record = StockRecord.all.where(symbol: subscription_stock_id).order('created_at DESC').first
+        stock_record.update_attribute(:last_price, 15.25)
         xhr :get, :retrieve_current_data
         assert_response 200
         assert_not_nil assigns(:quote_data)
@@ -61,9 +61,9 @@ class ItemsControllerTest < ActionController::TestCase
       end
 
       it "allows historic data to be retrieved" do 
-        Item.create(name: air_nz.name, symbol: air_nz.symbol, last_price: 11.20, last_datetime: DateTime.now - 5.hours)
-        Item.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.80, last_datetime: Date.today - 3.hours)
-        Item.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.40, last_datetime: DateTime.now - 2.hours)
+        StockRecord.create(name: air_nz.name, symbol: air_nz.symbol, last_price: 11.20, last_datetime: DateTime.now - 5.hours)
+        StockRecord.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.80, last_datetime: Date.today - 3.hours)
+        StockRecord.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.40, last_datetime: DateTime.now - 2.hours)
         xhr :get, :retrieve_historic_data
         assert_response 200
         @historic_data = @controller.instance_variable_get('@all_historic_data')
@@ -85,28 +85,18 @@ class ItemsControllerTest < ActionController::TestCase
 
     end
 
-    describe "single user subscriptions" do
+    describe "single subscription " do 
 
-      before do
-        sign_out tania
-        sign_in anita
+      before do 
+        sign_in tania
       end
 
-      it "can handle single user subscriptions" do
+      it "can handle only one subscription and process the data correctly" do 
+        Subscription.where.not(user_id: User.last.id).destroy_all
         xhr :get, :retrieve_current_data
-        assert_response 200
-        assert_not_nil assigns(:quote_data)
+        assert_response :success
       end
-
-      it "can handle change in single user subscriptions" do
-        subscription_stock_id = Stock.find(anita.subscriptions.first.stock_id).symbol
-        item = Item.all.where(symbol: subscription_stock_id).order('created_at DESC').first
-        item.update_attribute(:last_price, 15.25)
-        xhr :get, :retrieve_current_data
-        assert_response 200
-        assert_not_nil assigns(:quote_data)
-      end
-
+    
     end
 
   end

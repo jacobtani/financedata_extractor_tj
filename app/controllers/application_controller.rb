@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found!
-    flash[:error] = 'Could not find item'
+    flash[:error] = 'Could not find object'
   end
 
 end

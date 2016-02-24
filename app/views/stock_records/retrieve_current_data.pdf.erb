@@ -1,0 +1,2 @@
+<%= wicked_pdf_stylesheet_link_tag "pdf.scss" %> 
+<%= render partial: 'stock_records/retrieve_current_data.html.erb', locals: { quote_data: StockRecord.get_current_data, interested_stocks: nil }%>

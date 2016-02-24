@@ -3,15 +3,15 @@ require 'open-uri'
 require 'tempfile'
 require 'fileutils'
 
-class Item < ActiveRecord::Base
+class StockRecord < ActiveRecord::Base
 
   #Get historic data for each stock and build them into one big list
-  def self.get_history_data(user)
+  def self.get_historical_data(user)
     @all_historic_data = Array.new
     if user.subscriptions
       user.subscriptions.each do |subs|
-        @i= Item.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
-        @historic_data = @i.sort_by { |i| i[:created_at] }.reverse!
+        @stock_record= StockRecord.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
+        @historic_data = @stock_record.sort_by { |stock_record| stock_record[:created_at] }.reverse!
         @all_historic_data.push @historic_data
       end
     end
@@ -23,7 +23,6 @@ class Item < ActiveRecord::Base
     initial_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20Name%2C%20LastTradePriceOnly%2C%20Symbol%2C%20LastTradeDate%2C%20LastTradeWithTime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22'
     interested_stocks_ids = Subscription.select(:stock_id).distinct.pluck(:stock_id)
     interested_stocks_ids.each do |s|
-        sub_object = Stock.find(s)
         initial_url = [initial_url, Stock.find(s).symbol].join()
         initial_url = [initial_url, '%22%2C%20%22'].join('')
     end
@@ -31,28 +30,55 @@ class Item < ActiveRecord::Base
   end
 
   #Get the current stock data
-  def self.current_data
-    result = ItemsInteractor.call
+  def self.get_current_data
+    @number_of_unique_subscriptions = Subscription.select(:stock_id).distinct.pluck(:stock_id)
+    result = StockRecordsInteractor.call
     @quote_data = result.success? ? result.quote_data : []
     @changed = Hash.new
-    @quote_data.each do |item|
-      #Check whether item price has changed or not
-      @items = Item.all.where(symbol: item['Symbol']).order('created_at DESC').first
-      @price_float = (item["LastTradePriceOnly"]).to_f #convert price to a float
-      @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
-      @last_date = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y"))
-      
-      if @items.present? && @items.last_price != @last_price
-        @changed[item['Name']] = true 
-      else
-        @changed[item['Name']] = false 
-      end
-      # add to db
-      Item.create(name: item['Name'], last_datetime: @last_date, last_price: @last_price, symbol: item['Symbol'])
+    #build parsable array of hashes
+    if @number_of_unique_subscriptions.length == 1 
+      @quote_data_new = handle_one_subscription(@quote_data)
+    elsif @number_of_unique_subscriptions.length > 1 
+      @quote_data_new = handle_many_subscriptions(@quote_data)
     end
+    @quote_data_new.each do |stock_record|
+      #Check whether stock price has changed or not
+      @recent_stock_records = StockRecord.all.where(symbol: stock_record[:Symbol]).order('created_at DESC').first
+      @price_float = (stock_record[:LastTradePriceOnly]).to_f #convert price to a float
+      @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
+      @last_date = (DateTime.strptime(stock_record[:LastTradeDate], "%m/%d/%Y"))
+      
+      #check if stock prices have changed
+      if @recent_stock_records.present? && @recent_stock_records.last_price != @last_price
+        stock_record[:ChangedValue] = true
+      else
+        stock_record[:ChangedValue] = false
+      end      
+      # add to db
+      StockRecord.create(name: stock_record[:Name], last_datetime: @last_date, last_price: @last_price, symbol: stock_record[:Symbol])
+    end
+
     #send quote data and changed data status to client using message bus
-    MessageBus.publish('/new_quote_data', quote_data: @quote_data, changed_data: @changed)
-    @quote_data
+    MessageBus.publish('/new_quote_data', quote_data: @quote_data_new)
+    @quote_data_new
+  end
+
+  #Build a parsable array of hashes when there is one subscription
+  def self.handle_one_subscription(data)
+    @quote_data_new = Array.new
+    hash = {:Symbol => data['Symbol'], :Name => data['Name'], :LastTradeDate => data['LastTradeDate'], :LastTradePriceOnly => data['LastTradePriceOnly'], :LastTradeWithTime => data['LastTradeWithTime']}
+    @quote_data_new.push hash
+    @quote_data_new
+  end
+
+  #Build a parsable array of hashes when there is more than one subscription
+  def self.handle_many_subscriptions(data)
+    @quote_data_new = Array.new
+    data.each do |d|
+      hash = {:Symbol => d['Symbol'], :Name => d['Name'], :LastTradeDate => d['LastTradeDate'], :LastTradePriceOnly => d['LastTradePriceOnly'], :LastTradeWithTime => d['LastTradeWithTime']}
+      @quote_data_new.push hash
+    end
+    @quote_data_new
   end
 
   #Generate the pdf of the current stock data
@@ -65,7 +91,7 @@ class Item < ActiveRecord::Base
         include Rails.application.routes.url_helpers
         include ApplicationHelper
       end
-      pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data, :interested_stocks => Item.retrieve_user_stocks_interested(user)}
+      pdf_html = av.render :template => "stock_records/retrieve_current_data.pdf.erb",:locals => {:quote_data => StockRecord.get_current_data, :interested_stocks => StockRecord.retrieve_user_stocks_interested(user)}
       # use wicked_pdf gem to create PDF from the doc HTML
       doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
       #assemble filename
