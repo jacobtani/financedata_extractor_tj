@@ -34,7 +34,7 @@ checkNewStockData = function() {
     for(var i=0;i<quoteData.length; i++) {
 
       var stock_record = quoteData[i];
-      var symbol = stock_record.Symbol;
+      var symbol = stock_record.Symbol.substring(0,2);
       var price = (parseFloat(stock_record.LastTradePriceOnly)).toFixed(2)
 
       //Configure format of date 

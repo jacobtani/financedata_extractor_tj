@@ -38,7 +38,7 @@
       <tbody>
       <% quote_data.each do |stock_record| %>
         <%if interested_array.include? stock_record[:Symbol]%> <!-- only if user subscribed show the contents-->
-          <tr class="<%= stock_record[:Symbol] %>">
+          <tr class="<%= stock_record[:Symbol][0..2] %>">
             <td> <%= stock_record[:Symbol] %> </td>
             <td> <%= stock_record[:Name] %> </td>
             <td> <%= number_to_currency stock_record[:LastTradePriceOnly] %> </td>
