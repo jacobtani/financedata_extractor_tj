@@ -1,9 +1,9 @@
 ### YFExtractor
-`YFExtractor` is a tool that captures financial data from the Yahoo Finance web service. It has the following capabilities:
+`YFExtractor` is a tool that captures financial data from the Yahoo Finance web service based on a user's subcriptions. It has the following capabilities:
 
-* Captures the live prices of any commodities or stocks at a configurable time interval
-* Displays the last 5 prices of each stock
-* Creates a text report of current stock data on a hourly basis
+* Captures the live prices of NZX50 commodities or stocks at a configurable time interval
+* Displays the last 5 prices of each stock (if available)
+* Creates a text report of stock data that all users are subscribed to on a hourly basis and stores the pdfs in the stockpdfs folder on the server.
 
 ### Setup 
 
@@ -26,6 +26,8 @@
 * Start Redis server: `redis-server /usr/local/etc/redis.conf`
 
 * Run application server: `rails s`
+
+* Setup a user account and add subscriptions via Manage Subscriptions page
 
 ### Database
 
@@ -50,7 +52,7 @@ Change the background task intervals:
 * After updating the jobs scheduling interval, you will need to run the following command `whenever --update-crontab`
 
 Login to the application
-* Build your subscription to stocks you are interested in and view the relevant data
+* Subscribe to stocks in NZX50 that you are interested to via the Manage Subscriptions page
 
 ### References
 
