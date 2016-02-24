@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224053924) do
+ActiveRecord::Schema.define(version: 20160224083315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,13 +22,14 @@ ActiveRecord::Schema.define(version: 20160224053924) do
   end
 
   create_table "stock_records", force: :cascade do |t|
-    t.string   "name"
-    t.string   "symbol"
     t.float    "last_price"
     t.datetime "last_datetime"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "stock_id"
   end
+
+  add_index "stock_records", ["stock_id"], name: "index_stock_records_on_stock_id", using: :btree
 
   create_table "stocks", force: :cascade do |t|
     t.string   "symbol",     null: false

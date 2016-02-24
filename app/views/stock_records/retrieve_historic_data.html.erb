@@ -18,8 +18,8 @@
       <% @all_historic_data.each do |stock_record| %>
         <% stock_record.each do |s| %>
           <tr> 
-            <td> <%= s.symbol %> </td>
-            <td> <%= s.name %> </td>
+            <td> <%= Stock.find(s.stock_id).symbol %> </td>
+            <td> <%= Stock.find(s.stock_id).name %> </td>
             <td> <%= (s.last_datetime).strftime('%d/%m/%y') %> </td>
             <td> <%= number_to_currency s.last_price %> </td>
             <td> <%= s.created_at.strftime('%d/%m/%y %H:%M:%S') %> </td>

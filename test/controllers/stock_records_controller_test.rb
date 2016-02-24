@@ -51,8 +51,7 @@ class StockRecordsControllerTest < ActionController::TestCase
 
 
       it "allows current data to be retrieved and detect change" do
-        subscription_stock_id = Stock.find(tania.subscriptions.second.stock_id).symbol
-        stock_record = StockRecord.all.where(symbol: subscription_stock_id).order('created_at DESC').first
+        stock_record = StockRecord.all.where(stock_id: tania.subscriptions.second.stock_id).order('created_at DESC').first
         stock_record.update_attribute(:last_price, 15.25)
         xhr :get, :retrieve_current_data
         assert_response 200
@@ -61,9 +60,9 @@ class StockRecordsControllerTest < ActionController::TestCase
       end
 
       it "allows historic data to be retrieved" do 
-        StockRecord.create(name: air_nz.name, symbol: air_nz.symbol, last_price: 11.20, last_datetime: DateTime.now - 5.hours)
-        StockRecord.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.80, last_datetime: Date.today - 3.hours)
-        StockRecord.create(name: auckland.name, symbol: auckland.symbol, last_price: 6.40, last_datetime: DateTime.now - 2.hours)
+        StockRecord.create(stock_id: air_nz.id, last_price: 11.20, last_datetime: DateTime.now - 5.hours)
+        StockRecord.create(stock_id: auckland.id, last_price: 6.80, last_datetime: Date.today - 3.hours)
+        StockRecord.create(stock_id: auckland.id, last_price: 6.40, last_datetime: DateTime.now - 2.hours)
         xhr :get, :retrieve_historic_data
         assert_response 200
         @historic_data = @controller.instance_variable_get('@all_historic_data')

@@ -1,11 +1,9 @@
 first_stock_record:
-  name: 'Xero Limited'
-  symbol: 'XRO.NZ'
+  stock: xero_stock
   last_price: 6.50
   last_datetime: <%=DateTime.now - 3.hours %>
 
 second_stock_record:
-  name: 'Auckland Airport'
-  symbol: 'AIA.NZ'
+  stock: auckland_stock
   last_price: 31.50
   last_datetime: <%=DateTime.now - 8.hours %>
