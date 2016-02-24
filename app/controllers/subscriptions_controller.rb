@@ -16,7 +16,7 @@ class SubscriptionsController < ApplicationController
       if @subscription.save
         format.js { redirect_turbo subscriptions_path }
       else
-        format.js {}
+        format.js { redirect_turbo subscriptions_path}
         flash[:error] = "Already subscribed to this stock"
       end
     end
