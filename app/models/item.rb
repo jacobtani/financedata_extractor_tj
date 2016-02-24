@@ -65,7 +65,7 @@ class Item < ActiveRecord::Base
         include Rails.application.routes.url_helpers
         include ApplicationHelper
       end
-      pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data, :interested_stocks => Item.retrieve_user_stocks_interested(@user)}
+      pdf_html = av.render :template => "items/retrieve_current_data.pdf.erb",:locals => {:quote_data => Item.current_data, :interested_stocks => Item.retrieve_user_stocks_interested(user)}
       # use wicked_pdf gem to create PDF from the doc HTML
       doc_pdf = WickedPdf.new.pdf_from_string(pdf_html, :page_size => 'Letter')
       #assemble filename
@@ -91,8 +91,8 @@ class Item < ActiveRecord::Base
     end   
   end
 
-  def retrieve_user_stocks_interested(user)
-    @subscriptions = user.subscriptions.pluck(:stock_id)  
+  def self.retrieve_user_stocks_interested(user)
+    @interested_stocks = user.subscriptions.pluck(:stock_id)  
   end
 
 end
