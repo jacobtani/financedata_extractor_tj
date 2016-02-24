@@ -4,13 +4,14 @@ require 'tempfile'
 require 'fileutils'
 
 class StockRecord < ActiveRecord::Base
+belongs_to :stock
 
   #Get historic data for each stock and build them into one big list
   def self.get_historical_data(user)
     @all_historic_data = Array.new
     if user.subscriptions
       user.subscriptions.each do |subs|
-        @stock_record= StockRecord.select('distinct on (last_price) *').where(symbol: Stock.find(subs.stock_id).symbol).limit(5)
+        @stock_record= StockRecord.select('distinct on (last_price) *').where(stock_id: subs.stock_id).limit(5)
         @historic_data = @stock_record.sort_by { |stock_record| stock_record[:created_at] }.reverse!
         @all_historic_data.push @historic_data
       end
@@ -43,7 +44,8 @@ class StockRecord < ActiveRecord::Base
     end
     @quote_data_new.each do |stock_record|
       #Check whether stock price has changed or not
-      @recent_stock_records = StockRecord.all.where(symbol: stock_record[:Symbol]).order('created_at DESC').first
+      stock = Stock.all.where(symbol: stock_record[:Symbol]).first
+      @recent_stock_records = StockRecord.all.where(stock_id: stock.id).order('created_at DESC').first
       @price_float = (stock_record[:LastTradePriceOnly]).to_f #convert price to a float
       @last_price = (@price_float *100).round / 100.0 #round the price to 2dp
       @last_date = (DateTime.strptime(stock_record[:LastTradeDate], "%m/%d/%Y"))
@@ -55,7 +57,7 @@ class StockRecord < ActiveRecord::Base
         stock_record[:ChangedValue] = false
       end      
       # add to db
-      StockRecord.create(name: stock_record[:Name], last_datetime: @last_date, last_price: @last_price, symbol: stock_record[:Symbol])
+      StockRecord.create(stock_id: stock.id, last_datetime: @last_date, last_price: @last_price)
     end
 
     #send quote data and changed data status to client using message bus
@@ -97,6 +99,7 @@ class StockRecord < ActiveRecord::Base
       #assemble filename
       filename = "Current-Stock-Prices-" + (DateTime.now.to_s)
       filename.gsub!(/ /,'-')
+      #write file to tempfile
       begin 
         file = Tempfile.new([filename, '.pdf']) 
         file.binmode

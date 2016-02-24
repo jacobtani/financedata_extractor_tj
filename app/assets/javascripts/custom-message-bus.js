@@ -34,7 +34,7 @@ checkNewStockData = function() {
     for(var i=0;i<quoteData.length; i++) {
 
       var stock_record = quoteData[i];
-      var symbol = stock_record.Symbol;
+      var symbol = stock_record.Symbol.substring(0,2);
       var price = (parseFloat(stock_record.LastTradePriceOnly)).toFixed(2)
 
       //Configure format of date 
@@ -44,7 +44,7 @@ checkNewStockData = function() {
       //Update data in current table
       $('.' + symbol).children('td').eq(2).text('$' + price);
       $('.' + symbol).children('td').eq(3).text(stock_formatted_date + " " + (stock_record.LastTradeWithTime).split(' -')[0]);
-      
+
       //Determine if data has changed state or not and add highlighting if necessary    
       if (stock_record.ChangedValue.toString() == 'true') {
         $('.' + symbol).addClass('highlight')
