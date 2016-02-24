@@ -1,9 +1,9 @@
 ### YFExtractor
-`YFExtractor` is a tool that captures financial data from the Yahoo Finance web service based on a user's subcriptions. It has the following capabilities:
+`YFExtractor` is a tool that captures NZX 50 stock financial data from the Yahoo Finance web service based on a user's subcriptions. It has the following capabilities:
 
-* Captures the live prices of NZX50 commodities or stocks at a configurable time interval
-* Displays the last 5 prices of each stock (if available)
-* Creates a text report of stock data that all users are subscribed to on a hourly basis and stores the pdfs in the stockpdfs folder on the server.
+* Captures the live prices of NZX 50 stocks at a configurable time interval
+* Displays the last 5 prices of each stock that is subscribed to (if available)
+* Creates a text report of NZX 50 stock data that all users are subscribed to on a hourly basis and stores the pdfs in the stockpdfs folder on the server.
 
 ### Setup 
 
@@ -51,8 +51,8 @@ Change the background task intervals:
 * config/schedule.rb 
 * After updating the jobs scheduling interval, you will need to run the following command `whenever --update-crontab`
 
-Login to the application
-* Subscribe to stocks in NZX50 that you are interested to via the Manage Subscriptions page
+Login to the application:
+* Subscribe to stocks in the NZX 50 that you are interested in via the Manage Subscriptions page
 
 ### References
 
