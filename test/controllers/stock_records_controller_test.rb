@@ -85,28 +85,18 @@ class StockRecordsControllerTest < ActionController::TestCase
 
     end
 
-    describe "single user subscriptions" do
+    describe "single subscription " do 
 
-      before do
-        sign_out tania
-        sign_in anita
+      before do 
+        sign_in tania
       end
 
-      it "can handle single user subscriptions" do
+      it "can handle only one subscription and process the data correctly" do 
+        Subscription.where.not(user_id: User.last.id).destroy_all
         xhr :get, :retrieve_current_data
-        assert_response 200
-        assert_not_nil assigns(:quote_data)
+        assert_response :success
       end
-
-      it "can handle change in single user subscriptions" do
-        subscription_stock_id = Stock.find(anita.subscriptions.first.stock_id).symbol
-        stock_record = StockRecord.all.where(symbol: subscription_stock_id).order('created_at DESC').first
-        stock_record.update_attribute(:last_price, 15.25)
-        xhr :get, :retrieve_current_data
-        assert_response 200
-        assert_not_nil assigns(:quote_data)
-      end
-
+    
     end
 
   end
