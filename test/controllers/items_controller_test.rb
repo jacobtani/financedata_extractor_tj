@@ -46,10 +46,7 @@ class ItemsControllerTest < ActionController::TestCase
         xhr :get, :retrieve_current_data
         assert_response 200
         assert_not_nil assigns(:quote_data)
-        @subscriptions_count = @controller.instance_variable_get('@subscriptions_count')
         @quote_data = @controller.instance_variable_get('@quote_data')
-        assert_not_nil assigns(:subscriptions_count)
-        tania.subscriptions.count.must_equal @subscriptions_count
       end
 
 
@@ -60,10 +57,7 @@ class ItemsControllerTest < ActionController::TestCase
         xhr :get, :retrieve_current_data
         assert_response 200
         assert_not_nil assigns(:quote_data)
-        @subscriptions_count = @controller.instance_variable_get('@subscriptions_count')
         @quote_data = @controller.instance_variable_get('@quote_data')
-        assert_not_nil assigns(:subscriptions_count)
-        tania.subscriptions.count.must_equal @subscriptions_count
       end
 
       it "allows historic data to be retrieved" do 

@@ -14,9 +14,7 @@
   </div>
 
   <div class="form-group row submit">
-    <%= button_tag type: "submit", class: "btn btn-success", name: "commit", value: "Save" do %>
-      <a>Add</a>
-    <% end %>
-    <a class="btn btn-danger hvr-trim" id='add-subscription-cancel-button' data-behaviour="form-dismiss">Cancel</a>
+    <%= button_tag "Save", type: "submit", class: "btn btn-primary hvr-trim" %>
+    <a class="btn btn-danger hvr-trim" id='add-subscription-cancel-button' data-behaviour="submit">Cancel</a>
   </div>
 <% end %>

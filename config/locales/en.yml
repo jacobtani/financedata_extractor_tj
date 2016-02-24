@@ -1,7 +1,7 @@
 #Custom messages 
 en:
-  unavailable_data: "YFExtractor is currently unable to retrieve the data requested. Please try again later"
-  no_current_data: "YFExtractor was unable to retrieve current stock data from database."
-  no_historic_data: "YFExtractor was unable to retrieve historic stock data from database."
+  no_subscriptions: "You are not subscribed to any stocks."
+  no_current_data: "YFExtractor is currently unable to retrieve current stock data from database."
+  no_historic_data: "YFExtractor is currently unable to retrieve the historic stock data from database."
   start_capture: "YFExtractor has successfully started the capture process."
   stop_capture: "YFExtractor has successfully stopped the capture process."

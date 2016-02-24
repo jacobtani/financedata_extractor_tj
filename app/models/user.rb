@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   has_many :subscriptions, dependent: :destroy
 
+  #Build full name of user
   def full_name
     "#{first_name} #{surname}"
   end

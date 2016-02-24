@@ -18,26 +18,26 @@
   <!-- if there is data show it -->
   <%if quote_data.present? %>
     <!-- determine which quotes to show -->
-    <% myHash = Array.new %>
+    <% interested_array = Array.new %>
     <%if @interested_stocks.nil? %>
       <% @interested_stocks = Subscription.select(:stock_id).distinct.pluck(:stock_id) %>
     <%end%>
     <%@interested_stocks.each do |s| %>
-      <% myHash.push Stock.find(s).symbol %>
+      <% interested_array.push Stock.find(s).symbol %>
     <%end%>
 
     <table class='table current-data-table'>
       <thead>
         <tr>
-          <th> Stock Symbol</th>
-          <th> Stock Name</th>
+          <th> Symbol</th>
+          <th> Name</th>
           <th> Last Trade Price</th>
           <th> Last Trade Date and Time </th>
         </tr>
       </thead>
       <tbody>
       <% quote_data.each do |item| %>
-        <%if myHash.include? item['Symbol']%> <!-- only if user subscribed show the contents-->
+        <%if interested_array.include? item['Symbol']%> <!-- only if user subscribed show the contents-->
           <tr class="<%= (item['Name'])[0..5] %>">
             <td> <%= item["Symbol"] %> </td>
             <td> <%= item["Name"] %> </td>
@@ -45,7 +45,7 @@
             <% d = (DateTime.strptime(item["LastTradeDate"], "%m/%d/%Y")) %>
             <% date= d.strftime('%d/%m/%Y') %>
             <%time=item["LastTradeWithTime"].split(' -').first %>
-            <td> <%= [date, time].join(' ') %> </td>
+            <td> <%= [date, time].join(' ') %> </td> <!--display time and date together -->
           </tr>
         <%end%>
       <%end%>
@@ -53,7 +53,7 @@
     </table>
   <%else %>
     <div class = "dialog">
-      <h3> <%= I18n.t("unavailable_data") %> </h3>
+      <h3> <%= I18n.t("no_current_data") %> </h3>
     </div>
   <%end%>
 </div>

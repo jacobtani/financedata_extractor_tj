@@ -8,7 +8,7 @@ function format(stock){
     '<p class="stock-name">' + name + '</p>';
 }
 
-//select 2 helper function
+//select2 helper function
 $(function(){
     $('select').select2({
       formatResult: format,
