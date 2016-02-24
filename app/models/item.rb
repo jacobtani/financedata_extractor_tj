@@ -91,6 +91,7 @@ class Item < ActiveRecord::Base
     end   
   end
 
+  #Get the ids of stocks a user is interested in
   def self.retrieve_user_stocks_interested(user)
     @interested_stocks = user.subscriptions.pluck(:stock_id)  
   end
